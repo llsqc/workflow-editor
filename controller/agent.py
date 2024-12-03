@@ -58,8 +58,9 @@ def agent_list():
     """
     获取agent列表
     """
+    kind = request.args.get('kind')
     try:
-        result = agent.get_agents()
+        result = agent.get_agents(kind)
     except Exception as e:
         return responseUtil.fail(e)
     else:
