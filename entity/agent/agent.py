@@ -9,6 +9,8 @@ kind-2 hook
 
 
 class Agent(Document):
+    meta = {'allow_inheritance': True}
+
     name = StringField()
     description = StringField()
     avatar = StringField()
