@@ -1,3 +1,5 @@
+from mongoengine import StringField
+
 from entity.agent.agent import Agent
 
 """
@@ -7,8 +9,6 @@ Judge 判断者
 
 
 class Judge(Agent):
-    def __init__(self, name, description, avatar, identity_setting, task, output):
-        super().__init__(name, description, avatar)
-        self.identity_setting = identity_setting  # 身份设定
-        self.task = task  # agent任务
-        self.output = output  # 输出形式
+    identity_setting = StringField()
+    task = StringField()
+    output = StringField()

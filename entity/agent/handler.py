@@ -1,3 +1,5 @@
+from mongoengine import StringField
+
 from entity.agent.agent import Agent
 
 """
@@ -7,6 +9,4 @@ Handler 处理者
 
 
 class Handler(Agent):
-    def __init__(self, name, description, avatar, deal):
-        super().__init__(name, description, avatar, )
-        self.deal = deal  # Hook的处理程序
+    deal = StringField()
