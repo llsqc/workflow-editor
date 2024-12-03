@@ -20,8 +20,9 @@ def delete_agent(oid):
     return None
 
 
-def get_agents():
+def get_agents(kind):
     """
     获取agent列表
+    :param kind: 类型
     """
     return None
