@@ -21,6 +21,17 @@ class Judge(Agent):
         out += "按照要求输出，不要有其他多余的内容"
         return f"{role}\n{assign}\n{out}"
 
+    def to_dict(self):
+        return {
+            "name": self.name,
+            "description": self.description,
+            "avatar": self.avatar,
+            "kind": self.kind,
+            "identity_setting": self.identity_setting,
+            "task": self.task,
+            "output": self.output
+        }
+
 
 if __name__ == '__main__':
     class J:
