@@ -22,7 +22,7 @@ class Handler(Agent):
 
 
 if __name__ == '__main__':
-    class handler:
+    class H:
         def __init__(self, name, deal):
             self.name = name
             self.deal = deal
@@ -37,7 +37,7 @@ if __name__ == '__main__':
             return f"Handler: {self.name} 执行成功, 输出如下: {result}" if result is not None else f"Handler: {self.name} 执行成功"
 
 
-    h = handler("test", """
+    h = H("test", """
 if text == "是":
     result = "对对对"
 else:
