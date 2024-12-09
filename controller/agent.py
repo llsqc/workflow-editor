@@ -7,10 +7,10 @@ from util import responseUtil
 agent管理controller
 """
 
-bp = Blueprint('agent', __name__)
+bp = Blueprint('agent', __name__,url_prefix='/agent')
 
 
-@bp.route('/agent/create', methods=['POST'])
+@bp.route('/create', methods=['POST'])
 def agent_create():
     """
     创建agent请求
@@ -25,7 +25,7 @@ def agent_create():
         return responseUtil.succeed(result)
 
 
-@bp.route('/agent/update', methods=['POST'])
+@bp.route('/update', methods=['POST'])
 def agent_update():
     """
     更新agent配置
@@ -39,7 +39,7 @@ def agent_update():
         return responseUtil.succeed(result)
 
 
-@bp.route('/agent/delete', methods=['POST'])
+@bp.route('/delete', methods=['GET'])
 def agent_delete():
     """
     删除agent
@@ -53,7 +53,7 @@ def agent_delete():
         return responseUtil.succeed(result)
 
 
-@bp.route('/agent/list', methods=['GET'])
+@bp.route('/list', methods=['GET'])
 def agent_list():
     """
     获取agent列表

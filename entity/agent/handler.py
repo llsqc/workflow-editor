@@ -20,6 +20,15 @@ class Handler(Agent):
             return f"Handler: {self.name} 执行失败，错误信息: {e}"
         return f"Handler: {self.name} 执行成功, 输出如下: {result}" if result is not None else f"Handler: {self.name} 执行成功"
 
+    def to_dict(self):
+        return {
+            "name": self.name,
+            "description": self.description,
+            "avatar": self.avatar,
+            "kind": self.kind,
+            "deal": self.deal
+        }
+
 
 if __name__ == '__main__':
     class H:

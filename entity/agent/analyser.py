@@ -16,6 +16,16 @@ class Analyser(Agent):
         assign = f"你需要根据如上身份对 {text} 做出详细的分析，完成如下任务: {self.task}"
         return f"{role}\n{assign}\n记住不能使用markdown的形式输出，要求就是正常文本"
 
+    def to_dict(self):
+        return {
+            "name": self.name,
+            "description": self.description,
+            "avatar": self.avatar,
+            "kind": self.kind,
+            "identity_setting": self.identity_setting,
+            "task": self.task
+        }
+
 
 if __name__ == '__main__':
     class A:

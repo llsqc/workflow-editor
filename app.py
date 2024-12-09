@@ -8,10 +8,8 @@ def create_app():
     the_app = Flask(__name__)
 
     # 注册蓝图
-    # from api import train, forecast, manage
-    # the_app.register_blueprint(train.bp, url_prefix='/train')  # 导入训练接口蓝图
-    # the_app.register_blueprint(forecast.bp, url_prefix='/forecast')  # 导入预测接口蓝图
-    # the_app.register_blueprint(manage.bp, url_prefix='/manage')  # 导入管理接口蓝图
+    from controller import agent
+    the_app.register_blueprint(agent.bp)
 
     # 连接数据库MongoDB
     try:
