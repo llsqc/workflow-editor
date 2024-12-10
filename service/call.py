@@ -17,11 +17,11 @@ def call(data):
     # analyser
     if kind == 0:
         prompts = agent.generate_prompts(text)
-        result = LLM.call_chat(agent.identity_setting(), prompts)
+        result = LLM.call_chat(agent.identity_setting, prompts)
     # judge
     elif kind == 1:
         prompts = agent.generate_prompts(text)
-        result = LLM.call_chat(agent.identity_setting(), prompts)
+        result = LLM.call_chat(agent.identity_setting, prompts)
     # handler
     elif kind == 2:
         result = agent.handle(text)
@@ -33,5 +33,5 @@ def get_agent(oid, kind):
     """
     根据oid和kind获取对应的agent
     """
-    query = {'oid': oid, 'kind': kind}
-    return Agent.objects(__raw__=query).first()
+    query = {'id': oid, 'kind': kind}
+    return Agent.objects.get(**query)

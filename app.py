@@ -2,6 +2,7 @@ from flask import Flask
 from mongoengine import connect
 
 from const import database
+from controller import call
 
 
 def create_app():
@@ -10,7 +11,7 @@ def create_app():
     # 注册蓝图
     from controller import agent
     the_app.register_blueprint(agent.bp)
-
+    the_app.register_blueprint(call.bp)
     # 连接数据库MongoDB
     try:
         connect(
