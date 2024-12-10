@@ -23,6 +23,7 @@ class Judge(Agent):
 
     def to_dict(self):
         return {
+            "id": str(self.id),
             "name": self.name,
             "description": self.description,
             "avatar": self.avatar,

@@ -59,36 +59,26 @@ def update_agent(data):
         # 根据id查找Agent对象
         agent = Agent.objects.get(id=agent_id)
 
-        # 更新属性
-        if "name" in data:
-            agent.name = data["name"]
-        if "description" in data:
-            agent.description = data["description"]
-        if "avatar" in data:
-            agent.avatar = data["avatar"]
-        if "kind" in data:
-            agent.kind = data["kind"]
+        # 定义公共字段和类型特定字段的映射
+        common_fields = ["name", "description", "avatar", "kind"]
+        kind_fields = {
+            0: ["identity_setting", "task"],
+            1: ["identity_setting", "task", "output"],
+            2: ["deal"],
+            3: ["style"]
+        }
 
-        # 根据kind更新特定字段
-        kind = data.get("kind")
-        if kind == 0:
-            if "identity_setting" in data:
-                agent.identity_setting = data["identity_setting"]
-            if "task" in data:
-                agent.task = data["task"]
-        elif kind == 1:
-            if "identity_setting" in data:
-                agent.identity_setting = data["identity_setting"]
-            if "task" in data:
-                agent.task = data["task"]
-            if "output" in data:
-                agent.output = data["output"]
-        elif kind == 2:
-            if "deal" in data:
-                agent.deal = data["deal"]
-        elif kind == 3:
-            if "style" in data:
-                agent.style = data["style"]
+        # 更新公共字段
+        for field in common_fields:
+            if field in data:
+                setattr(agent, field, data[field])
+
+        # 更新类型特定字段
+        kind = agent.kind  # 使用代理当前的kind，或者使用data.get("kind")如果允许更新kind
+        if kind in kind_fields:
+            for field in kind_fields[kind]:
+                if field in data:
+                    setattr(agent, field, data[field])
 
         # 保存更新
         agent.save()
@@ -115,32 +105,6 @@ def delete_agent(oid):
         return "Error deleting agent"
 
 
-# def get_agents(kind):
-#     """
-#     获取agent列表
-#     :param kind: 类型
-#     """
-#     try:
-#         # 根据kind查询Agent对象列表
-#         agents = Agent.objects(kind=kind)
-#         # 将QuerySet转换为列表
-#         agents_list = [agent.to_mongo().to_dict() for agent in agents]
-#         return agents_list
-#     except Exception as e:
-#         print(f"Error getting agents: {e}")
-#         return {"error": "Error getting agents"}
-
-from bson import ObjectId
-import json
-
-
-class JSONEncoder(json.JSONEncoder):
-    def default(self, o):
-        if isinstance(o, ObjectId):
-            return str(o)
-        return json.JSONEncoder.default(self, o)
-
-
 def get_agents(kind):
     """
     获取agent列表
@@ -149,18 +113,10 @@ def get_agents(kind):
     try:
         # 根据kind查询Agent对象列表
         agents = Agent.objects(kind=kind)
-
-        # 将QuerySet转换为列表，并处理ObjectId
         agents_list = []
         for agent in agents:
-            agent_dict = agent.to_mongo().to_dict()
-            # 将ObjectId转换为字符串
-            agent_dict['_id'] = str(agent_dict['_id'])
-            agents_list.append(agent_dict)
-
-        # 使用自定义的JSONEncoder序列化
-        json_string = JSONEncoder().encode(agents_list)
-        return json.loads(json_string)
+            agents_list.append(agent.to_dict())
+        return agents_list
     except Exception as e:
         print(f"Error getting agents: {e}")
-        return {"error": "Error getting agents"}
+        return "Error getting agents"
