@@ -10,7 +10,7 @@ class A:
     def generate_prompts(self, text):
         role = f"请记住你的身份是{self.identity_setting}"
         assign = f"你需要根据如上身份对 {text} 做出详细的分析，完成如下任务: {self.task}"
-        return f"{role}\n{assign}\n记住不能使用markdown或latex的特殊形式输出，要求只能是正常文本"
+        return f"{role}\n{assign}"
 
 
 class J:
@@ -45,22 +45,42 @@ class H:
         return f"Handler: {self.name} 执行成功, 输出如下: {result}" if result is not None else f"Handler: {self.name} 执行成功"
 
 
+class P:
+    def __init__(self, identity_setting, style):
+        self.identity_setting = identity_setting
+        self.style = style
+
+    def generate_prompts(self, text):
+        role = f"请记住你的身份是{self.identity_setting}，你需要基于这个身份提供用于AI生图的提示词"
+        assign = f"你需要根据如上身份对 {text} 做出艺术和设计上的分析，并根据风格 {self.style}，丰富并完善后给出用于AI生图的提示词。要求符合提示词的格式，对画面影响大的权重在前，影响小的在后，不需要完整的语句，只需要提示词，保证生成的画面精美"
+        return f"{role}\n{assign}\n"
+
+
 if __name__ == '__main__':
+
     # 教学场景
-    analyser1 = A(name="analyser code-1 Java开发者", identity_setting="资深的Java开发者", task="提供这个题目的解法")
+    analyser1 = A(name="analyser code-1 Java开发者", identity_setting="资深的Java开发者",
+                  task="提供这个题目的正确解法，要求注释详细")
     analyser2 = A(name="analyser code-2 编程老师", identity_setting="经验丰富的编程老师",
-                  task="通俗易懂的教会我怎么做这道题，要求详细")
+                  task="通俗易懂的教会我怎么做这道题，要求详细，首先讲讲整体的思路，然后给出具体步骤和为什么这么思考，最后给出每一个步骤的代码实现和需要注意的点")
 
     # agent 1 分析问题解法
     prompt1 = analyser1.generate_prompts(
         text="现有 $N$ 名同学参加了期末考试，并且获得了每名同学的信息：姓名（不超过 $8$ 个字符的仅有英文小写字母的字符串）、语文、数学、英语成绩（均为不超过 $150$ 的自然数）。总分最高的学生就是最厉害的，请输出最厉害的学生各项信息（姓名、各科成绩）。如果有多个总分相同的学生，输出靠前的那位")
     output1 = call_chat(analyser1.identity_setting, prompt1)
-    print(analyser1.name, "输出为", output1)
+    pre = ""
+    print(analyser2.name + "输出如下")
+    for content in output1:
+        pre += content
+        print(content, end="")
 
+    print()
     # agent 2 提供教学方法
-    prompt2 = analyser2.generate_prompts(output1)
+    prompt2 = analyser2.generate_prompts(pre)
     output2 = call_chat(analyser2.identity_setting, prompt2)
-    print(analyser2.name, "输出为", output2)
+    print(analyser2.name, "输出如下")
+    for content in output2:
+        print(content, end="")
 
 #     # 日志分析场景
 #     analyser3 = A(name="analyser code-3 资深运维工程师", identity_setting="资深的k8s管理和分布式运维工程师",

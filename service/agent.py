@@ -33,8 +33,10 @@ def create_agent(data):
             agent = Handler(name=name, description=description, avatar=avatar, kind=kind, deal=deal)
 
         elif kind == 3:
+            identity_setting = data["identity_setting"]
             style = data["style"]
-            agent = Painter(name=name, description=description, avatar=avatar, kind=kind, style=style)
+            agent = Painter(name=name, description=description, avatar=avatar, kind=kind,
+                            identity_setting=identity_setting, style=style)
 
         else:
             return "kind invalid"
@@ -65,7 +67,7 @@ def update_agent(data):
             0: ["identity_setting", "task"],
             1: ["identity_setting", "task", "output"],
             2: ["deal"],
-            3: ["style"]
+            3: ["identity_setting", "style"]
         }
 
         # 更新公共字段

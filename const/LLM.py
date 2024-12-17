@@ -6,3 +6,6 @@ UN_STREAM_HEADERS = {
     "Content-Type": "application/json",
     "Authorization": "Bearer " + KEY
 }
+
+IMAGE_URL = "https://chat.ecnu.edu.cn/open/api/v1/images/generations"
+IMAGE_MODEL = "ecnu-image"

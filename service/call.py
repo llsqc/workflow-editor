@@ -25,6 +25,15 @@ def call(data):
     # handler
     elif kind == 2:
         result = agent.handle(text)
+    # painter
+    elif kind == 3:
+        prompts = agent.generate_prompts(text)
+        r = LLM.call_chat_without_stream(agent.identity_setting, prompts)
+        url, revised_prompt = LLM.call_image(r)
+        result = {
+            'url': url,
+            'revised_prompt': revised_prompt,
+        }
 
     return result
 
