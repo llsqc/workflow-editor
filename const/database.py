@@ -1,6 +1,6 @@
 db = "workflow"
-host = "192.168.200.129"
-port = 27017
-username = "univero"
+host = "127.0.0.1"
+port = 27018
+username = "root"
 password = "fu040913"
 authentication_source = "admin"

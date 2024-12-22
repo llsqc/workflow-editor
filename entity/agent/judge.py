@@ -2,15 +2,41 @@
 Judge 判断者
 根据身份设定，任务和文本输入，输出对于情况的判断
 """
+import json
+
 from mongoengine import StringField, MapField
 
 from entity.agent.agent import Agent
+from util import LLM
 
 
 class Judge(Agent):
     identity_setting = StringField()
     task = StringField()
     output = MapField(StringField())
+
+    def call(self, text, stream=False):
+        prompts = self.generate_prompts(text)
+        result = LLM.call_chat(self.identity_setting, prompts, stream)
+
+        def generator():
+            if not stream:
+                yield json.dumps({
+                    "number": 0,
+                    "id": str(self.id),
+                    "content": result
+                }, ensure_ascii=False) + '\n'
+            else:
+                i = 0
+                for chunk in result:
+                    yield json.dumps({
+                        "number": i,
+                        "id": str(self.id),
+                        "content": chunk
+                    }, ensure_ascii=False) + '\n'
+                    i += 1
+
+        return generator()
 
     def generate_prompts(self, text):
         role = f"请记住你的身份是{self.identity_setting}"

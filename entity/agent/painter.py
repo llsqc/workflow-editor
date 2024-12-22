@@ -1,11 +1,38 @@
+import json
+
 from mongoengine import StringField
 
 from entity.agent.agent import Agent
+from util import LLM
 
 
 class Painter(Agent):
     identity_setting = StringField()
     style = StringField()
+
+    def call(self, text, stream=False):
+        prompts = self.generate_prompts(text)
+        r = LLM.call_chat(self.identity_setting, prompts, False)
+
+        def generator():
+            i = 0
+            for chunk in r:
+                yield json.dumps({
+                    "number": i,
+                    "id": str(self.id),
+                    "content": chunk
+                }, ensure_ascii=False) + '\n'
+                i += 1
+
+            url, revised_prompt = LLM.call_image(r)
+            yield json.dumps({
+                'number': -1,
+                'id': str(self.id),
+                'url': url,
+                'revised_prompt': revised_prompt,
+            }, ensure_ascii=False) + '\n'
+
+        return generator()
 
     def generate_prompts(self, text):
         role = f"请记住你的身份是{self.identity_setting}，你需要基于这个身份提供用于AI生图的提示词"

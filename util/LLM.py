@@ -4,17 +4,19 @@ from io import BytesIO
 import requests
 from PIL import Image
 
-from const.LLM import STREAM, MODEL, CHAT_URL, UN_STREAM_HEADERS, IMAGE_MODEL, IMAGE_URL
+from const.LLM import MODEL, CHAT_URL, UN_STREAM_HEADERS, IMAGE_MODEL, IMAGE_URL
 
 
-def call_chat(identity_setting, prompts):
+def call_chat(identity_setting, prompts, stream=False):
     messages = generate_messages(identity_setting, prompts)
     req = {
         "messages": messages,
-        "stream": STREAM,
+        "stream": stream,
         "model": MODEL,
     }
-    response = requests.post(CHAT_URL, json=req, headers=UN_STREAM_HEADERS, stream=True)
+    response = requests.post(CHAT_URL, json=req, headers=UN_STREAM_HEADERS, stream=stream)
+    if not stream:
+        return response.json()["choices"][0]["message"]["content"]
 
     def generate_response():
         if response.status_code == 200:
@@ -32,17 +34,6 @@ def call_chat(identity_setting, prompts):
             raise Exception(f"请求失败，状态码: {response.status_code}")
 
     return generate_response()
-
-
-def call_chat_without_stream(identity_setting, prompts):
-    messages = generate_messages(identity_setting, prompts)
-    req = {
-        "messages": messages,
-        "model": MODEL,
-    }
-    response = requests.post(CHAT_URL, json=req, headers=UN_STREAM_HEADERS)
-
-    return response.json()["choices"][0]["message"]["content"]
 
 
 def call_image(prompts):

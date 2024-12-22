@@ -1,3 +1,5 @@
+import json
+
 from mongoengine import StringField
 
 from entity.agent.agent import Agent
@@ -10,6 +12,19 @@ Handler 处理者
 
 class Handler(Agent):
     deal = StringField()
+
+    def call(self, text, stream=False):
+        result = self.handle(text)
+
+        def generator():
+            if not stream:
+                yield json.dumps({
+                    "number": 0,
+                    "id": str(self.id),
+                    "content": result
+                }, ensure_ascii=False) + '\n'
+
+        return generator()
 
     def handle(self, text):
         try:
