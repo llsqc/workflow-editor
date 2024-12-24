@@ -42,7 +42,7 @@ def create_agent(data):
             return "kind invalid"
 
         agent.save()
-        return f"created agent {agent.name}"
+        return str(agent.id)
     except Exception as e:
         print(f"Error creating agent: {e}")
         return None

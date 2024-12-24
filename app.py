@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_cors import CORS
 from mongoengine import connect
 
 from const import database
@@ -26,6 +27,8 @@ def create_app():
         print(f"数据库连接失败:{e}")
     else:
         print("数据库连接成功")
+
+    CORS(the_app)
 
     return the_app
 

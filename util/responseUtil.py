@@ -1,6 +1,7 @@
 from flask import jsonify
 
 from entity.response import Response
+from exception.biz_exception import BizException
 
 """
 an util to serialise the Response to json
@@ -18,6 +19,8 @@ def succeed(payload, code=0, msg="success"):
 
 def fail(payload, code=999, msg="unknown error"):
     if isinstance(payload, Response):
+        return jsonify({"code": code, "msg": msg, "payload": payload.to_dict()})
+    elif isinstance(payload, BizException):
         return jsonify({"code": code, "msg": msg, "payload": payload.to_dict()})
     elif isinstance(payload, Exception):
         return jsonify({"code": code, "msg": msg, "payload": payload.args[0]})
