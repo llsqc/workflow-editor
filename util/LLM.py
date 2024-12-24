@@ -2,7 +2,7 @@ import json
 from io import BytesIO
 
 import requests
-from PIL import Image
+
 
 from const.LLM import MODEL, CHAT_URL, UN_STREAM_HEADERS, IMAGE_MODEL, IMAGE_URL
 
@@ -57,7 +57,7 @@ def generate_messages(identity_setting, prompts):
     return messages
 
 
-if __name__ == '__main__':
+
     # call_chat("数学专家", """请记住你的身份是数学专家
     # 你需要根据如上身份对情况1 + 1 = 3, 完成判断任务:判断是否计算正确
     # 你的回答需要根据如下要求:
@@ -70,9 +70,9 @@ if __name__ == '__main__':
     #     """)
     #     for c in r:
     #         print(c, end="")
-    u, v = call_image("水墨风，竹林，渔船，湖泊，带斗笠的老翁")
-    print(u)
-    r = requests.get(u)
-    if r.status_code == 200:
-        image = Image.open(BytesIO(r.content))
-        image.show()
+    # u, v = call_image("水墨风，竹林，渔船，湖泊，带斗笠的老翁")
+    # print(u)
+    # r = requests.get(u)
+    # if r.status_code == 200:
+    #     image = Image.open(BytesIO(r.content))
+    #     image.show()
