@@ -1,22 +1,41 @@
 import json
+import logging
 
 import requests
 
+from biz.infra.consts.LLM import MODEL, CHAT_URL, IMAGE_MODEL, IMAGE_URL, HEADERS
+from biz.infra.exception.biz_exception import BizException as BE
+from biz.infra.exception.error_code import ErrorCode
 
-from biz.infra.consts.LLM import MODEL, CHAT_URL, UN_STREAM_HEADERS, IMAGE_MODEL, IMAGE_URL
+"""
+LLM 大模型调用工具类
+提供对话调用，图片生成等工具
+支持使用同步生成器实现流式输出
+"""
 
 
 def call_chat(identity_setting, prompts, stream=False):
+    """
+    调用LLM实现对话
+    :param identity_setting: 身份设定 system prompts
+    :param prompts: 提示词
+    :param stream: 是否启用流式输出
+    :return: LLM响应 or 同步生成器
+    """
     messages = generate_messages(identity_setting, prompts)
+    # 请求构建
     req = {
         "messages": messages,
         "stream": stream,
         "model": MODEL,
     }
-    response = requests.post(CHAT_URL, json=req, headers=UN_STREAM_HEADERS, stream=stream)
+    response = requests.post(CHAT_URL, json=req, headers=HEADERS, stream=stream)
+
+    # 非流式输出
     if not stream:
         return response.json()["choices"][0]["message"]["content"]
 
+    # 流式输出的同步生成器
     def generate_response():
         if response.status_code == 200:
             for line in response.iter_lines():
@@ -30,22 +49,34 @@ def call_chat(identity_setting, prompts, stream=False):
                         content = json_data["choices"][0]["delta"]["content"]
                         yield content
         else:
-            raise Exception(f"请求失败，状态码: {response.status_code}")
+            logging.error(response.status_code)
+            raise BE.error(ErrorCode.CALL_CHAT_FAILED)
 
     return generate_response()
 
 
 def call_image(prompts):
+    """
+    调用LLM实现图片生成
+    :param prompts: 提示词
+    :return: url and revised_prompts
+    """
     req = {
         "prompt": prompts,
         "model": IMAGE_MODEL
     }
-    response = requests.post(IMAGE_URL, json=req, headers=UN_STREAM_HEADERS)
+    response = requests.post(IMAGE_URL, json=req, headers=HEADERS)
     result = response.json()
     return result["data"][0]["url"], result["data"][0]["revised_prompt"]
 
 
 def generate_messages(identity_setting, prompts):
+    """
+    生成消息体
+    :param identity_setting: 身份设定
+    :param prompts: 提示词
+    :return: 本次调用使用的消息体
+    """
     messages = [{
         "role": "system",
         "content": "你的身份是" + identity_setting,
@@ -54,24 +85,3 @@ def generate_messages(identity_setting, prompts):
         "content": prompts,
     }]
     return messages
-
-
-
-    # call_chat("数学专家", """请记住你的身份是数学专家
-    # 你需要根据如上身份对情况1 + 1 = 3, 完成判断任务:判断是否计算正确
-    # 你的回答需要根据如下要求:
-    # 当情况: 计算正确发生时，你需要输出123
-    # 当情况: 计算错误发生时，你需要输出456
-    # 记住按照要求输出，不要有其他多余的内容
-    # """)
-    #     r = call_chat("数学专家", """请记住你的身份是数学专家
-    # 你需要根据如上身份对 9+9等于几 做出详细的分析，完成如下任务: 提供这道题目的详细解题思路记住不能使用markdown的形式输出，要求就是正常文本
-    #     """)
-    #     for c in r:
-    #         print(c, end="")
-    # u, v = call_image("水墨风，竹林，渔船，湖泊，带斗笠的老翁")
-    # print(u)
-    # r = requests.get(u)
-    # if r.status_code == 200:
-    #     image = Image.open(BytesIO(r.content))
-    #     image.show()

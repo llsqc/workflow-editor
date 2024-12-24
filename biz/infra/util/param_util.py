@@ -1,6 +1,11 @@
 from biz.infra.exception.biz_exception import BizException as BE
 from biz.infra.exception.error_code import ErrorCode
 
+"""
+param_util 参数工具类
+提供解析参数的必要工具类
+"""
+
 
 def require_param(param, data):
     """

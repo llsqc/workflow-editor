@@ -19,6 +19,9 @@ class Agent(Document, Response):
     avatar = StringField()
     kind = IntField()
 
+    def call(self, text, stream=False):
+        print(text)
+
     def to_dict(self):
         return {
             "id": str(self.id),

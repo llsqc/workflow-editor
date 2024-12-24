@@ -19,9 +19,9 @@ def scene_create():
     try:
         result = scene.scene_create(data)
     except Exception as e:
-        return responseUtil.fail(e)
+        return response_util.fail(e)
     else:
-        return responseUtil.succeed(result)
+        return response_util.succeed(result)
 
 
 @bp.route('/delete', methods='POST')
@@ -34,9 +34,9 @@ def scene_delete():
     try:
         result = scene.scene_delete(data)
     except Exception as e:
-        return responseUtil.fail(e)
+        return response_util.fail(e)
     else:
-        return responseUtil.succeed(result)
+        return response_util.succeed(result)
 
 
 @bp.route('/update', methods='POST')
@@ -49,9 +49,9 @@ def scene_update():
     try:
         result = scene.scene_update(data)
     except Exception as e:
-        return responseUtil.fail(e)
+        return response_util.fail(e)
     else:
-        return responseUtil.succeed(result)
+        return response_util.succeed(result)
 
 
 @bp.route('/list', methods='POST')
@@ -64,9 +64,9 @@ def scene_list():
     try:
         result = scene.scene_list(data)
     except Exception as e:
-        return responseUtil.fail(e)
+        return response_util.fail(e)
     else:
-        return responseUtil.succeed(result)
+        return response_util.succeed(result)
 
 
 @bp.route('/get', methods='POST')
@@ -79,6 +79,6 @@ def scene_get():
     try:
         result = scene.scene_get(data)
     except Exception as e:
-        return responseUtil.fail(e)
+        return response_util.fail(e)
     else:
-        return responseUtil.succeed(result)
+        return response_util.succeed(result)

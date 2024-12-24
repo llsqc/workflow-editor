@@ -3,6 +3,11 @@ import logging
 from datetime import datetime
 from pathlib import Path
 
+"""
+JsonFormatter json格式化器
+用于规范化日志的格式
+"""
+
 
 class JsonFormatter(logging.Formatter):
     def format(self, record):
@@ -16,6 +21,10 @@ class JsonFormatter(logging.Formatter):
 
 
 def log_init():
+    """
+    初始化日志配置
+    :return:
+    """
     logger = logging.getLogger()
     logger.setLevel(logging.INFO)
 

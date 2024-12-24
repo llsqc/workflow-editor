@@ -6,18 +6,26 @@ from biz.infra.entity.agent.agent import Agent
 
 """
 Handler 处理者
-将judge的输出作为输入，并执行deal对应的处理程序
+将 judge 的输出作为输入，并执行 deal 对应的处理程序
 """
 
 
 class Handler(Agent):
+    # 定义一个字符串字段，用于存储处理逻辑
     deal = StringField()
 
     def call(self, text, stream=False):
+        """
+        处理输入文本并返回结果
+        :param text: 输入的文本
+        :param stream: 是否以流的形式返回结果
+        :return: 包含处理结果的生成器
+        """
         result = self.handle(text)
 
         def generator():
             if not stream:
+                # 以 JSON 格式返回处理结果
                 yield json.dumps({
                     "number": 0,
                     "id": str(self.id),
@@ -27,15 +35,29 @@ class Handler(Agent):
         return generator()
 
     def handle(self, text):
+        """
+        执行存储在 deal 字段中的处理逻辑
+        :param text: 输入的文本
+        :return: 处理结果的字符串表示
+        """
         try:
+            # 创建一个局部变量字典，并将输入文本存储在其中
             local_vars = {'text': text}
+            # 执行存储在 deal 字段中的代码
             exec(self.deal, {}, local_vars)
+            # 获取执行结果
             result = local_vars.get('result', None)
         except Exception as e:
+            # 捕获并返回执行过程中发生的任何异常
             return f"Handler: {self.name} 执行失败，错误信息: {e}"
+        # 返回处理结果
         return f"Handler: {self.name} 执行成功, 输出如下: {result}" if result is not None else f"Handler: {self.name} 执行成功"
 
     def to_dict(self):
+        """
+        将 Handler 对象转换为字典
+        :return: 包含所有字段的字典
+        """
         return {
             "id": str(self.id),
             "name": self.name,
@@ -44,29 +66,3 @@ class Handler(Agent):
             "kind": self.kind,
             "deal": self.deal
         }
-
-
-if __name__ == '__main__':
-    class H:
-        def __init__(self, name, deal):
-            self.name = name
-            self.deal = deal
-
-        def handle(self, text):
-            try:
-                local_vars = {'text': text}
-                exec(self.deal, {}, local_vars)
-                result = local_vars.get('result', None)
-            except Exception as e:
-                return f"Handler: {self.name} 执行失败，错误信息: {e}"
-            return f"Handler: {self.name} 执行成功, 输出如下: {result}" if result is not None else f"Handler: {self.name} 执行成功"
-
-
-    h = H("test", """
-if text == "是":
-    result = "对对对"
-else:
-    result = "错错错"
-""")
-
-    print(h.handle("错"))

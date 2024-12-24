@@ -26,9 +26,9 @@ def agent_create():
     try:
         result = agent.agent_create(data)
     except Exception as e:
-        return responseUtil.fail(e)
+        return response_util.fail(e)
     else:
-        return responseUtil.succeed(result)
+        return response_util.succeed(result)
 
 
 @bp.route('/update', methods=['POST'])
@@ -45,9 +45,9 @@ def agent_update():
     try:
         result = agent.agent_update(data)
     except Exception as e:
-        return responseUtil.fail(e)
+        return response_util.fail(e)
     else:
-        return responseUtil.succeed(result)
+        return response_util.succeed(result)
 
 
 @bp.route('/delete', methods=['GET'])
@@ -61,9 +61,9 @@ def agent_delete():
     try:
         result = agent.agent_delete(oid)
     except Exception as e:
-        return responseUtil.fail(e)
+        return response_util.fail(e)
     else:
-        return responseUtil.succeed(result)
+        return response_util.succeed(result)
 
 
 @bp.route('/list', methods=['GET'])
@@ -75,6 +75,6 @@ def agent_list():
     try:
         result = agent.agent_list(kind)
     except Exception as e:
-        return responseUtil.fail(e)
+        return response_util.fail(e)
     else:
-        return responseUtil.succeed(result)
+        return response_util.succeed(result)

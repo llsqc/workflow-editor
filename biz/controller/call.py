@@ -20,12 +20,12 @@ def call_one():
     try:
         result = call_service.call(data)
     except Exception as e:
-        return responseUtil.fail(e)
+        return response_util.fail(e)
     else:
         if isinstance(result, types.GeneratorType):
             return Response(stream_with_context(result))
         else:
-            return responseUtil.succeed(result)
+            return response_util.succeed(result)
 
 
 @bp.route('/multiple', methods=['POST'])

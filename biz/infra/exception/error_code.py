@@ -22,11 +22,7 @@ class ErrorCode(Enum):
     DB_UPDATE_FAILED = (2003, "update failed, please try again")
 
     # 业务逻辑相关
-    UPLOAD_FAILED = (4000, "upload file failed, please try again")
-    GET_IP_FAILED = (4001, "get ip failed, please try again")
-    UPDATE_IP_FAILED = (4002, "update ip failed, please try again")
-    RECORD_SAVE_FAILED = (4003, "workflow save failed, please try again")
-    WORKFLOW_FAILED = (4004, "workflow call failed, please try again")
+    CALL_CHAT_FAILED = (3000, "call chat failed, please try again")
 
     def __init__(self, code, msg):
         self.code = code
