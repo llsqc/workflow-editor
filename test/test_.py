@@ -56,31 +56,8 @@ class P:
         return f"{role}\n{assign}\n"
 
 
-if __name__ == '__main__':
 
-    # 教学场景
-    analyser1 = A(name="analyser code-1 Java开发者", identity_setting="资深的Java开发者",
-                  task="提供这个题目的正确解法，要求注释详细")
-    analyser2 = A(name="analyser code-2 编程老师", identity_setting="经验丰富的编程老师",
-                  task="通俗易懂的教会我怎么做这道题，要求详细，首先讲讲整体的思路，然后给出具体步骤和为什么这么思考，最后给出每一个步骤的代码实现和需要注意的点")
 
-    # agent 1 分析问题解法
-    prompt1 = analyser1.generate_prompts(
-        text="现有 $N$ 名同学参加了期末考试，并且获得了每名同学的信息：姓名（不超过 $8$ 个字符的仅有英文小写字母的字符串）、语文、数学、英语成绩（均为不超过 $150$ 的自然数）。总分最高的学生就是最厉害的，请输出最厉害的学生各项信息（姓名、各科成绩）。如果有多个总分相同的学生，输出靠前的那位")
-    output1 = call_chat(analyser1.identity_setting, prompt1)
-    pre = ""
-    print(analyser2.name + "输出如下")
-    for content in output1:
-        pre += content
-        print(content, end="")
-
-    print()
-    # agent 2 提供教学方法
-    prompt2 = analyser2.generate_prompts(pre)
-    output2 = call_chat(analyser2.identity_setting, prompt2)
-    print(analyser2.name, "输出如下")
-    for content in output2:
-        print(content, end="")
 
 #     # 日志分析场景
 #     analyser3 = A(name="analyser code-3 资深运维工程师", identity_setting="资深的k8s管理和分布式运维工程师",
