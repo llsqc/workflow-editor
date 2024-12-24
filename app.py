@@ -1,9 +1,8 @@
 from flask import Flask
 from flask_cors import CORS
-from mongoengine import connect
 
-from biz.infra.const import database
 from biz.controller import call
+from biz.infra.config.mongo_config import mongo_init
 
 
 def create_app():
@@ -14,19 +13,7 @@ def create_app():
     the_app.register_blueprint(agent.bp)
     the_app.register_blueprint(call.bp)
     # 连接数据库MongoDB
-    try:
-        connect(
-            db=database.db,
-            host=database.host,
-            port=database.port,
-            username=database.username,
-            password=database.password,
-            authentication_source=database.authentication_source,
-        )
-    except ConnectionError as e:
-        print(f"数据库连接失败:{e}")
-    else:
-        print("数据库连接成功")
+    mongo_init()
 
     CORS(the_app)
 

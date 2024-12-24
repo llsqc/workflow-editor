@@ -15,14 +15,15 @@ def require_param(param, data):
     return data[param]
 
 
-def try_param(param, data):
+def try_param(param, data, re=None):
     """
     尝试获取参数
     若不存在则返回None
     :param param: 参数名
     :param data: 参数json
+    :param re: 默认返回参数
     :return: 参数 or None
     """
     if param in data:
         return data[param]
-    return None
+    return re

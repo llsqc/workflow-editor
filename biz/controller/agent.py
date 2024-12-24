@@ -1,10 +1,10 @@
 from flask import Blueprint, request
 
-from biz.infra.util import responseUtil
+from biz.infra.util import response_util
 from biz.service import agent
 
 """
-agent管理controller
+agent controller
 负责处理各类型agent的CRUD请求，与参数校验
 """
 
@@ -24,7 +24,7 @@ def agent_create():
     """
     data = request.get_json()
     try:
-        result = agent.create_agent(data)
+        result = agent.agent_create(data)
     except Exception as e:
         return responseUtil.fail(e)
     else:
@@ -43,7 +43,7 @@ def agent_update():
     """
     data = request.get_json()
     try:
-        result = agent.update_agent(data)
+        result = agent.agent_update(data)
     except Exception as e:
         return responseUtil.fail(e)
     else:
@@ -59,7 +59,7 @@ def agent_delete():
     """
     oid = request.args.get('id')
     try:
-        result = agent.delete_agent(oid)
+        result = agent.agent_delete(oid)
     except Exception as e:
         return responseUtil.fail(e)
     else:
@@ -73,7 +73,7 @@ def agent_list():
     """
     kind = request.args.get('kind')
     try:
-        result = agent.get_agents(kind)
+        result = agent.agent_list(kind)
     except Exception as e:
         return responseUtil.fail(e)
     else:
