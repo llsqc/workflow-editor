@@ -5,8 +5,8 @@ import types
 
 from flask import Blueprint, request, stream_with_context, Response
 
-from service import call as call_service
-from util import responseUtil
+from biz.service import call as call_service
+from biz.infra.util import responseUtil
 
 bp = Blueprint('call', __name__, url_prefix='/call')
 

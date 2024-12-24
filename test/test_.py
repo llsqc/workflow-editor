@@ -1,6 +1,3 @@
-from util.LLM import call_chat
-
-
 class A:
     def __init__(self, name, identity_setting, task):
         self.name = name

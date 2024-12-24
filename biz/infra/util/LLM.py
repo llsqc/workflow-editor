@@ -1,10 +1,9 @@
 import json
-from io import BytesIO
 
 import requests
 
 
-from const.LLM import MODEL, CHAT_URL, UN_STREAM_HEADERS, IMAGE_MODEL, IMAGE_URL
+from biz.infra.const.LLM import MODEL, CHAT_URL, UN_STREAM_HEADERS, IMAGE_MODEL, IMAGE_URL
 
 
 def call_chat(identity_setting, prompts, stream=False):

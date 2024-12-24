@@ -1,19 +1,18 @@
 """
-Judge 判断者
-根据身份设定，任务和文本输入，输出对于情况的判断
+Analyser 分析者
+根据用户设定和task得到长文本输出
 """
 import json
 
-from mongoengine import StringField, MapField
+from mongoengine import StringField
 
-from entity.agent.agent import Agent
-from util import LLM
+from biz.infra.entity.agent.agent import Agent
+from biz.infra.util import LLM
 
 
-class Judge(Agent):
+class Analyser(Agent):
     identity_setting = StringField()
     task = StringField()
-    output = MapField(StringField())
 
     def call(self, text, stream=False):
         prompts = self.generate_prompts(text)
@@ -40,12 +39,8 @@ class Judge(Agent):
 
     def generate_prompts(self, text):
         role = f"请记住你的身份是{self.identity_setting}"
-        assign = f"你需要根据如上身份对情况{text},完成判断任务:{self.task}"
-        out = "你的回答需要根据如下要求:\n"
-        for k, v in self.output.items():
-            out += f"当情况{k}发生时，你需要输出{v}\n"
-        out += "按照要求输出，不要有其他多余的内容"
-        return f"{role}\n{assign}\n{out}"
+        assign = f"你需要根据如上身份对 {text} 做出详细的分析，完成如下任务: {self.task}"
+        return f"{role}\n{assign}\n记住不能使用markdown的形式输出，要求就是正常文本"
 
     def to_dict(self):
         return {
@@ -55,29 +50,22 @@ class Judge(Agent):
             "avatar": self.avatar,
             "kind": self.kind,
             "identity_setting": self.identity_setting,
-            "task": self.task,
-            "output": self.output
+            "task": self.task
         }
 
 
 if __name__ == '__main__':
-    class J:
-        def __init__(self, name, identity_setting, task, output):
+    class A:
+        def __init__(self, name, identity_setting, task):
             self.name = name
             self.identity_setting = identity_setting
             self.task = task
-            self.output = output
 
         def generate_prompts(self, text):
             role = f"请记住你的身份是{self.identity_setting}"
-            assign = f"你需要根据如上身份对情况{text},完成判断任务:{self.task}"
-            out = "你的回答需要根据如下要求:\n"
-            for k, v in self.output.items():
-                out += f"当情况: {k}发生时，你需要输出{v}\n"
-            out += "记住按照要求输出，不要有其他多余的内容"
-            return f"{role}\n{assign}\n{out}"
+            assign = f"你需要根据如上身份对 {text} 做出详细的分析，完成如下任务: {self.task}"
+            return f"{role}\n{assign}\n记住不能使用markdown或latex的特殊形式输出，要求只能是正常文本"
 
 
-    j = J(name="判断者1号", identity_setting="数学专家", task="判断是否计算正确",
-          output={"计算正确": "123", "计算错误": "456"})
-    print(j.generate_prompts("1+1=3"))
+    j = A(name="分析者1号", identity_setting="数学专家", task="提供这道题目的详细解题思路")
+    print(j.generate_prompts("9+9等于几"))

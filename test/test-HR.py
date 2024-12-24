@@ -3,7 +3,7 @@ from test_ import J
 from test_ import A
 from test_ import H
 
-from util.LLM import call_chat
+from biz.infra.util.LLM import call_chat
 
 analyser1 = A(name="analyser code-1 互联网公司HR", identity_setting="招聘前端开发者的互联网公司HR",
               task="分析这些人的简历，输出格式为：姓名，邮箱，优点，缺点")

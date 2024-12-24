@@ -1,19 +1,20 @@
-from entity.agent.agent import Agent
-from entity.agent.analyser import Analyser
-from entity.agent.handler import Handler
-from entity.agent.judge import Judge
-from entity.agent.painter import Painter
+from biz.infra.entity.agent.agent import Agent
+from biz.infra.entity.agent.analyser import Analyser
+from biz.infra.entity.agent.handler import Handler
+from biz.infra.entity.agent.judge import Judge
+from biz.infra.entity.agent.painter import Painter
+from biz.infra.util import param_util
 
 
 def create_agent(data):
     """
-    创建对应类型的agent
+    根据前端请求创建对应类型的agent
     并存入数据库
     """
-    name = data["name"]
-    description = data["description"]
-    avatar = data["avatar"]
-    kind = data["kind"]
+    name = param_util.require_param("name", data)
+    description = param_util.try_param("description", data)
+    avatar = param_util.try_param("avatar", data)
+    kind = param_util.require_param("kind", data)
     try:
         if kind == 0:
             identity_setting = data["identity_setting"]

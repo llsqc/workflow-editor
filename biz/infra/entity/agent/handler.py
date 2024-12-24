@@ -2,7 +2,7 @@ import json
 
 from mongoengine import StringField
 
-from entity.agent.agent import Agent
+from biz.infra.entity.agent.agent import Agent
 
 """
 Handler 处理者

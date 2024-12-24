@@ -1,6 +1,6 @@
 # 教学场景
 from test_ import A, H
-from util.LLM import call_chat
+from biz.infra.util.LLM import call_chat
 
 analyser1 = A(name="analyser code-1 Python开发者", identity_setting="资深的Python开发者",
               task="提供这个题目的正确解法，要求注释详细")

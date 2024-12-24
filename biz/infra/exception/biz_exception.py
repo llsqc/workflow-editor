@@ -1,4 +1,4 @@
-from entity.response import Response
+from biz.infra.entity.response import Response
 
 
 class BizException(Exception, Response):

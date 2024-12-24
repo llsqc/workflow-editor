@@ -1,6 +1,6 @@
 from mongoengine import Document, StringField, IntField
 
-from entity.response import Response
+from biz.infra.entity.response import Response
 
 """
 agent父类，定义了name，description，avatar的基本属性

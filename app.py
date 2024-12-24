@@ -2,15 +2,15 @@ from flask import Flask
 from flask_cors import CORS
 from mongoengine import connect
 
-from const import database
-from controller import call
+from biz.infra.const import database
+from biz.controller import call
 
 
 def create_app():
     the_app = Flask(__name__)
 
     # 注册蓝图
-    from controller import agent
+    from biz.controller import agent
     the_app.register_blueprint(agent.bp)
     the_app.register_blueprint(call.bp)
     # 连接数据库MongoDB

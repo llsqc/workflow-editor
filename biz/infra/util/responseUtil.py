@@ -1,7 +1,7 @@
 from flask import jsonify
 
-from entity.response import Response
-from exception.biz_exception import BizException
+from biz.infra.entity.response import Response
+from biz.infra.exception.biz_exception import BizException
 
 """
 an util to serialise the Response to json

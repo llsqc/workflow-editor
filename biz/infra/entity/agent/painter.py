@@ -2,8 +2,8 @@ import json
 
 from mongoengine import StringField
 
-from entity.agent.agent import Agent
-from util import LLM
+from biz.infra.entity.agent.agent import Agent
+from biz.infra.util import LLM
 
 
 class Painter(Agent):

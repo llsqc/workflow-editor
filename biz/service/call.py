@@ -1,4 +1,4 @@
-from entity.agent.agent import Agent
+from biz.infra.entity.agent.agent import Agent
 
 
 def call(data):
@@ -18,7 +18,7 @@ def call(data):
 
 def get_agent(oid):
     """
-    根据oid和kind获取对应的agent
+    根据oid获取对应的agent
     """
     query = {'id': oid}
     return Agent.objects.get(**query)
