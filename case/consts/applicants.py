@@ -1,4 +1,4 @@
-HR_text = """
+applicants = """
 姓名: 初音未来
 
 联系信息:

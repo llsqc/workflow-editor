@@ -9,6 +9,10 @@ class ErrorCode(Enum):
     """
     # 参数验证相关
     INVALID_PARAMETER = (999, "invalid parameter")
+    MISSING_REQUIRED_FIELD = (998, "missing required field")
+    UNKNOWN_FIELD = (997, "unknown field")
+    MISSING_PARAMETER = (996, "missing parameter")
+    DUPLICATE_PARAMETER = (995, "duplicate parameter")
 
     # 身份验证与权限校验
     JWT_INVALID = (1000, "the JWT is in valid, please log back in")

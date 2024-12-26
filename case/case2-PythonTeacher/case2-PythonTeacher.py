@@ -1,5 +1,5 @@
 # 教学场景
-from test_ import A, H
+from case.agents import A, H
 from biz.infra.util.LLM import call_chat
 
 analyser1 = A(name="analyser code-1 Python开发者", identity_setting="资深的Python开发者",
@@ -22,7 +22,6 @@ for content in output1:
     print(content, end="")
 
 print()
-print("-----------------------分割线--------------------")
 
 #
 # # agent 2 提供教学方法
@@ -42,9 +41,8 @@ for content in output3:
 
 
 print()
-print("-----------------------分割线--------------------")
 
-python_deal = pre
+python_code = pre
 
-handler1 = H(name="handler code-1 邮件通知", deal=python_deal)
+handler1 = H(name="handler code-1 邮件通知", deal=python_code)
 output4 = handler1.handle("")

@@ -1,9 +1,13 @@
+import logging
+
 from biz.infra.entity.agent.agent import Agent
 from biz.infra.entity.agent.analyser import Analyser
 from biz.infra.entity.agent.handler import Handler
 from biz.infra.entity.agent.judge import Judge
 from biz.infra.entity.agent.painter import Painter
+from biz.infra.exception.error_code import ErrorCode
 from biz.infra.util import param_util
+from biz.infra.exception.biz_exception import BizException as BE
 
 """
 agent service
@@ -11,7 +15,7 @@ agent service
 """
 
 
-def agent_create(data):
+def agent_create(data) -> str:
     """
     创建agent
 
@@ -39,13 +43,15 @@ def agent_create(data):
         }
 
         if kind not in agent_classes:
-            return "kind invalid"
+            logging.error(f"unknown agent kind: {kind}")
+            raise BE.error(ErrorCode.INVALID_PARAMETER)
 
         agent_class, required_fields = agent_classes[kind]
         # 检查所有必需的字段是否都存在于data中
         for field in required_fields:
             if field not in data:
-                return f"Missing required field: {field}"
+                logging.error(f"Missing required field: {field}")
+                raise BE.error(ErrorCode.MISSING_REQUIRED_FIELD)
 
         # 构建参数字典
         params = {
@@ -63,11 +69,11 @@ def agent_create(data):
         agent.save()
         return str(agent.id)
     except Exception as e:
-        print(f"Error creating agent: {e}")
-        return None
+        logging.error(f"Error creating agent: {e}")
+        raise BE.error(ErrorCode.DB_CREATE_FAILED)
 
 
-def agent_update(data):
+def agent_update(data) -> None:
     """
     更新agent信息
 
@@ -81,8 +87,8 @@ def agent_update(data):
     """
     agent_id = param_util.require_param("id", data)
     if not agent_id:
-        print("Agent id is required for update")
-        return "find agent failed"
+        logging.error(f"find agent failed")
+        raise BE.error(ErrorCode.MISSING_REQUIRED_FIELD)
 
     try:
         # 根据id查找Agent对象
@@ -111,13 +117,11 @@ def agent_update(data):
 
         # 保存更新
         agent.save()
-        return "Successfully updated agent"
     except Exception as e:
-        print(f"Error updating agent: {e}")
-        return "Error updating agent"
+        raise BE.error(ErrorCode.DB_UPDATE_FAILED)
 
 
-def agent_delete(oid):
+def agent_delete(oid) -> None:
     """
     删除agent
 
@@ -135,11 +139,10 @@ def agent_delete(oid):
         # 删除对象
         agent.delete()
     except Exception as e:
-        print(f"Error deleting agent: {e}")
-        return "Error deleting agent"
+        raise BE.error(ErrorCode.DB_DELETE_FAILED)
 
 
-def agent_list(kind):
+def agent_list(kind) -> list:
     """
     获取agent列表
 
@@ -159,5 +162,4 @@ def agent_list(kind):
             agents_list.append(agent.to_dict())
         return agents_list
     except Exception as e:
-        print(f"Error getting agents: {e}")
-        return "Error getting agents"
+        raise BE.error(ErrorCode.DB_NOT_FOUND)
