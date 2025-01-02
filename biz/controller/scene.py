@@ -9,7 +9,7 @@ from biz.service import scene
 bp = Blueprint('scene', __name__, url_prefix='/scene')
 
 
-@bp.route('/create', methods='POST')
+@bp.route('/create', methods=['POST'])
 def scene_create():
     """
     创建一个场景
@@ -24,7 +24,7 @@ def scene_create():
         return response_util.succeed(result)
 
 
-@bp.route('/delete', methods='POST')
+@bp.route('/delete', methods=['POST'])
 def scene_delete():
     """
     删除一个场景
@@ -39,7 +39,7 @@ def scene_delete():
         return response_util.succeed(result)
 
 
-@bp.route('/update', methods='POST')
+@bp.route('/update', methods=['POST'])
 def scene_update():
     """
     更新一个场景
@@ -54,7 +54,7 @@ def scene_update():
         return response_util.succeed(result)
 
 
-@bp.route('/list', methods='POST')
+@bp.route('/list', methods=['POST'])
 def scene_list():
     """
     获取场景列表
@@ -69,7 +69,7 @@ def scene_list():
         return response_util.succeed(result)
 
 
-@bp.route('/get', methods='POST')
+@bp.route('/get', methods=['POST'])
 def scene_get():
     """
     获取场景详细信息
