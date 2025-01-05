@@ -43,7 +43,8 @@ class H:
 
 
 class P:
-    def __init__(self, identity_setting, style):
+    def __init__(self, name, identity_setting, style):
+        self.name = name
         self.identity_setting = identity_setting
         self.style = style
 

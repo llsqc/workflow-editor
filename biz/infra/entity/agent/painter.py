@@ -32,10 +32,11 @@ class Painter(Agent):
         # 生成提示词
         prompts = self.generate_prompts(text)
         # 调用LLM进行对话，生成初始结果
-        r = LLM.call_chat(self.identity_setting, prompts, False)
+        r = LLM.call_chat(self.identity_setting, prompts, True)
 
         # 定义生成器函数
         def generator():
+            p = ""
             i = 0
             # 逐块处理生成的结果
             for chunk in r:
@@ -46,9 +47,10 @@ class Painter(Agent):
                     "content": chunk
                 }, ensure_ascii=False) + '\n'
                 i += 1
+                p += chunk
 
             # 调用LLM生成图像，并获取图像URL和修订后的提示词
-            url, revised_prompt = LLM.call_image(r)
+            url, revised_prompt = LLM.call_image(p)
             # 生成最终的JSON数据块
             yield json.dumps({
                 'number': -1,
