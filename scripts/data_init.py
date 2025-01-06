@@ -183,7 +183,7 @@ payload = json.dumps({
     "avatar": "",
     "kind": 0,
     "identity_setting": "小学语文老师",
-    "task": "找出作文中的好词好句，给予表扬，找出病句错词，给予指正，给出总体评价与修改建议"
+    "task": "找出作文中的好词好句，给予表扬，找出病句错词，给予指正，给出总体评价与修改建议，要求输出的开头是原文，后续接修改建议"
 })
 
 response = requests.request("POST", agent_create_url, headers=header, data=payload)
@@ -206,20 +206,6 @@ id_2 = response.json()["payload"]
 print("成功创建agent", json.loads(payload)["name"])
 
 payload = json.dumps({
-    "name": "绘本绘画-Style",
-    "description": "分析这个故事需要的风格",
-    "avatar": "",
-    "kind": 0,
-    "identity_setting": "善于分析故事的插画家",
-    "task": "给出适合这个故事的绘画风格，只能输出一个词语"
-})
-
-response = requests.request("POST", agent_create_url, headers=header, data=payload)
-id_3 = response.json()["payload"]
-
-print("成功创建agent", json.loads(payload)["name"])
-
-payload = json.dumps({
     "name": "绘本绘画-Illustrator",
     "description": "根据人物、情节、风格绘制对应的图片",
     "avatar": "",
@@ -229,7 +215,7 @@ payload = json.dumps({
 })
 
 response = requests.request("POST", agent_create_url, headers=header, data=payload)
-id_4 = response.json()["payload"]
+id_3 = response.json()["payload"]
 
 print("成功创建agent", json.loads(payload)["name"])
 
@@ -238,8 +224,7 @@ payload = json.dumps({
     "agents": [
         id_1,
         id_2,
-        id_3,
-        id_4
+        id_3
     ]
 })
 
