@@ -26,12 +26,3 @@ def call_one():
             return Response(stream_with_context(result))
         else:
             return response_util.succeed(result)
-
-
-@bp.route('/multiple', methods=['POST'])
-def call_multiple():
-    """
-    调用多个agent
-    将上一个agent的输出作为下一个agent的输入
-    :return:
-    """

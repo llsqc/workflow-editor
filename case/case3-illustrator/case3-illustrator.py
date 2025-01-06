@@ -1,39 +1,40 @@
 """
-文件名称: 绘画创作自动化流程
 
-情景描述:
-该文件实现了一个自动化流程，用于处理绘画创作中的灵感激发、风格分析和创作指导。整个流程分为三个主要步骤：
-1. 灵感激发：分析给定的主题或关键词，生成绘画灵感和创意构思，要求详细描述画面内容和情感表达。
-2. 风格分析：根据灵感内容，提取相关的艺术风格和技法，输出风格列表，风格后不带解释。
-3. 创作指导生成：根据提取的艺术风格，生成具体的创作指导，包括构图建议、色彩搭配和技法应用。
+case3-绘画创作自动化
 
-原理:
-该脚本通过定义多个Agent（灵感激发者、风格分析者、创作指导生成者），每个Agent负责不同的任务。每个Agent通过调用LLM生成相应的提示词（prompt），并将结果传递给下一个Agent。最终，由创作指导生成者根据提取的艺术风格生成具体的创作指导。
+该工作流能批改小朋友写的作文，并根据小朋友写的作文，分析故事的主要人物、情节，分许需要的风格，生成对应的绘本图片，能完成装订校刊等方便小朋友教学的功能
+
+整个流程分为四个主要步骤：
+
+1. 作文批改：批改作文并提供修改意见
+2. 作文概述：提炼小朋友写的作文的内容要点
+3. 画风分析：根据所提炼的作文概述，分析这篇作文的文字风格和内容适合用什么样的画风来展现
+4. 绘画：根据分析的画风与内容梗概，绘制符合的绘本图片
 
 主要步骤：
-1. analyser1：调用LLM分析绘画主题，输出详细的灵感构思。
-2. analyser2：调用LLM提取灵感相关的艺术风格，输出风格列表。
-3. painter：调用LLM根据艺术风格生成创作指导。
+
+1. Analyser - Teacher：批改作文并提供修改意见
+2. Analyser - Story：分析故事，梳理主要的人物、情节
+3. Analyser - Style：分析这个故事需要的风格
+4. Painter - Illustrator：根据人物、情节、风格绘制对应的图片
+
 """
 
-# 导入代理类，用于不同任务的处理
-from case.agents import A, P  # 导入代理类，用于不同任务的处理
-# 导入与大语言模型交互的函数
+from case.agents import A, P  # 从agents模块导入A（分析者）、P（画家）类
 from biz.infra.util.LLM import call_chat, call_image  # 导入与大语言模型交互的函数
-# 导入Python问题常量
-from case.consts import story
+from case.consts import story  # 导入小学生作文常量
 
-# 定义第一个分析器，用于总结故事内容
+# 定义analyser1，用于批改作文
 analyser1 = A(name="绘本绘画-Analyser-Teacher",
               identity_setting="小学语文老师",
               task="用教导小学生的口吻提出给出的这篇作文的修改意见")
 
-# 定义第一个分析器，用于总结故事内容
+# 定义analyser2，用于总结故事内容
 analyser2 = A(name="绘本绘画-Analyser-Story",
               identity_setting="善于总结的作家",
               task="提取这个故事的主要内容，字数为30字")
 
-# 定义第二个分析器，用于分析故事的绘画风格
+# 定义analyser3，用于分析故事的绘画风格
 analyser3 = A(name="绘本绘画-Analyser-Style",
               identity_setting="善于分析故事的插画家",
               task="给出适合这个故事的绘画风格，只能输出一个词语")
@@ -58,7 +59,7 @@ for content in output2:
 
 print()
 
-# 将分析器1的输出保存为故事的总结
+# 将analyser2的输出保存
 summary = pre
 
 prompt3 = analyser3.generate_prompts(summary)
@@ -71,10 +72,10 @@ for content in output3:
 
 print()
 
-# 将分析器2的输出保存为绘画风格提示词
+# 将analyser3的输出保存为绘画风格提示词
 style = pre
 
-# 定义绘画师，用于生成图像
+# 定义painter1，用于生成图像
 painter1 = P(name="绘本绘画-Painter-Illustrator",
               identity_setting="插画画师",
               style=style)
