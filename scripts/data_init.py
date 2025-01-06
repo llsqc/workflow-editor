@@ -59,7 +59,45 @@ payload = json.dumps({
     "description": "向通过简历筛选的求职者发送邮件",
     "avatar": "",
     "kind": 2,
-    "deal": "import json\nimport smtplib\nimport string\nfrom email.mime.multipart import MIMEMultipart\nfrom email.mime.text import MIMEText\n\nSUBJECT = '[面试通知] 一面通过'\nSENDER = '1449610641@qq.com'\nAUTHORIZATION_CODE = 'godhxkrehrewhdjf'\n\nSMTP_SERVER = 'smtp.qq.com'\nSMTP_PORT = 465\n\n# 创建邮件\ncandidates = json.loads(text)\nresult = ''\nfor candidate in candidates:\n    message = MIMEMultipart()\n    message['From'] = SENDER\n    message['To'] = candidate['email']\n    message['Subject'] = SUBJECT\n\n    # 邮件正文\n    body = candidate['name'] + \"同学，你好！恭喜通过我司第一轮面试，请耐心等待后续面试通知\"\n    message.attach(MIMEText(body, 'plain'))\n\n    # 连接到SMTP服务器并发送邮件\n    try:\n        server = smtplib.SMTP_SSL(SMTP_SERVER, SMTP_PORT)  # 链接SMTP服务器\n        server.login(SENDER, AUTHORIZATION_CODE)  # 登录SMTP服务器\n        content = message.as_string()\n        server.sendmail(SENDER, candidate['email'], content)\n        server.quit()\n        result += candidate['name'] + ':' + candidate['email'] + '通知邮件发送成功'\n\n    except Exception as e:\n        result += candidate['name'] + ':' + candidate['email'] + '通知邮件发送失败'"
+    "deal": """
+import json
+import smtplib
+import string
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+
+SUBJECT = '[面试通知] 一面通过'
+SENDER = '1449610641@qq.com'
+AUTHORIZATION_CODE = 'godhxkrehrewhdjf'
+
+SMTP_SERVER = 'smtp.qq.com'
+SMTP_PORT = 465
+
+# 创建邮件
+candidates = json.loads(text)
+result = ''
+for candidate in candidates:
+    message = MIMEMultipart()
+    message['From'] = SENDER
+    message['To'] = candidate['email']
+    message['Subject'] = SUBJECT
+
+    # 邮件正文
+    body = candidate['name'] + "同学，你好！恭喜通过我司第一轮面试，请耐心等待后续面试通知"
+    message.attach(MIMEText(body, 'plain'))
+
+    # 连接到SMTP服务器并发送邮件
+    try:
+        server = smtplib.SMTP_SSL(SMTP_SERVER, SMTP_PORT)  # 链接SMTP服务器
+        server.login(SENDER, AUTHORIZATION_CODE)  # 登录SMTP服务器
+        content = message.as_string()
+        server.sendmail(SENDER, candidate['email'], content)
+        server.quit()
+        result += candidate['name'] + ':' + candidate['email'] + '通知邮件发送成功'
+
+    except Exception as e:
+        result += candidate['name'] + ':' + candidate['email'] + '通知邮件发送失败'
+"""
 })
 
 response = requests.request("POST", agent_create_url, headers=header, data=payload)
