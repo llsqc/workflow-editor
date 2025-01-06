@@ -61,7 +61,7 @@ style = pre
 
 # 定义绘画师，用于生成图像
 painter1 = P(name="analyser code-3 绘画",
-              identity_setting="儿童画画师",
+              identity_setting="插画画师",
               style=style)
 
 prompt3 = painter1.generate_prompts(summary)
