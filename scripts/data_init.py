@@ -125,7 +125,7 @@ payload = json.dumps({
     "avatar": "",
     "kind": 0,
     "identity_setting": "资深的Python开发者",
-    "task": "提供这个题目的正确解法，提供解题思路，要求注释详细"
+    "task": "提供这个题目的正确解法，提供解题思路，要求注释详细，markdown的代码块需要给出语言"
 })
 
 response = requests.request("POST", agent_create_url, headers=header, data=payload)
@@ -155,7 +155,7 @@ payload = json.dumps({
     "avatar": "",
     "kind": 0,
     "identity_setting": "Python编程老师",
-    "task": "根据所给出的知识点提供一道新的编程题，要求题目与样例"
+    "task": "根据所给出的知识点提供一道新的编程题，要求题目与样例，markdown的代码块需要注明语言"
 })
 
 response = requests.request("POST", agent_create_url, headers=header, data=payload)
