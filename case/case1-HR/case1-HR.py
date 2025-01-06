@@ -26,23 +26,23 @@ from case.agents import A, H, J  # 从agents模块导入A（分析者）、H（�
 from case.consts import applicants, email_deal  # 从consts模块导入applicants（应聘者列表）和email_deal（邮件处理函数）
 
 # 创建analyser1，用于分析应聘者的简历
-analyser1 = A(name="analyser code-1 互联网公司HR",  # agent名称
+analyser1 = A(name="简历筛选-Analyser-HR",  # agent名称
               identity_setting="招聘前端开发者的互联网公司HR",  # agent身份设定
               task="分析这些人的简历，输出格式为：姓名，邮箱，优点，缺点")  # agent任务
 
 # 创建judge1，用于判断应聘者是否符合前端开发职位要求
-judge1 = J(name="judge code-1 互联网公司HR",  # agent名称
+judge1 = J(name="简历筛选-Judge-Filter",  # agent名称
            identity_setting="互联网公司HR",  # agent身份设定
            task="判断这些求职者是否能胜任前端开发,每行输出求职者姓名和结果，输出格式为求职者姓名，邮箱，结果",  # agent任务
            output={"符合条件": "一面通过", "不符合条件": "一面不通过"})  # 输出结果的映射
 
 # 创建analyser2，用于输出一面通过的应聘者名单
-analyser2 = A(name="analyser code-2 互联网公司HR",  # agent名称
+analyser2 = A(name="简历筛选-Analyser-Extractor",  # agent名称
               identity_setting="招聘前端开发者的互联网公司HR",  # agent身份设定
               task="""输出一面通过的应聘者的名单，格式为[{"name":姓名,"email":邮箱}]的json数组，不要在markdown的包裹中，不要用```json开头""")  # agent任务
 
 # 创建handler1，用于处理邮件通知
-handler1 = H(name="handler code-1 邮件通知",
+handler1 = H(name="简历筛选-Handler-Communicant",
              deal=email_deal.email_deal)  # agent名称和邮件处理函数
 
 # analyser1分析应聘者简历
