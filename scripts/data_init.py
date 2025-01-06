@@ -125,7 +125,7 @@ payload = json.dumps({
     "avatar": "",
     "kind": 0,
     "identity_setting": "资深的Python开发者",
-    "task": "提供这个题目的正确解法，要求注释详细"
+    "task": "提供这个题目的正确解法，提供解题思路，要求注释详细"
 })
 
 response = requests.request("POST", agent_create_url, headers=header, data=payload)
@@ -140,7 +140,7 @@ payload = json.dumps({
     "avatar": "",
     "kind": 0,
     "identity_setting": "Python编程老师",
-    "task": "提供这个题目的正确解法，要分析这道题目的知识点，只输出知识点，不用分析题目，不涉及任何和题目相关的内容，知识点后不需要带解释，只需要给出名词求注释详细"
+    "task": "提供这个题目的正确解法，要分析这道题目的知识点，给出最关键最重要的一个知识点，只输出知识点，不用分析题目，不涉及任何和题目相关的内容，知识点后不需要带解释，只需要给出名词求注释详细"
 })
 
 response = requests.request("POST", agent_create_url, headers=header, data=payload)
@@ -155,7 +155,7 @@ payload = json.dumps({
     "avatar": "",
     "kind": 0,
     "identity_setting": "Python编程老师",
-    "task": "根据所给出的知识点提供一道新的编程题"
+    "task": "根据所给出的知识点提供一道新的编程题，要求题目与样例"
 })
 
 response = requests.request("POST", agent_create_url, headers=header, data=payload)
@@ -183,7 +183,7 @@ payload = json.dumps({
     "avatar": "",
     "kind": 0,
     "identity_setting": "小学语文老师",
-    "task": "用教导小学生的口吻提出作文的修改意见"
+    "task": "找出作文中的好词好句，给予表扬，找出病句错词，给予指正，给出总体评价与修改建议"
 })
 
 response = requests.request("POST", agent_create_url, headers=header, data=payload)
@@ -197,7 +197,7 @@ payload = json.dumps({
     "avatar": "",
     "kind": 0,
     "identity_setting": "善于总结的作家",
-    "task": "提取这个故事的主要内容，字数为30字"
+    "task": "提取这个故事的主要人物与情节，描述故事中最突出的一个画面"
 })
 
 response = requests.request("POST", agent_create_url, headers=header, data=payload)
