@@ -12,6 +12,7 @@ scene_service.py
 """
 
 import logging
+from datetime import datetime
 
 from biz.infra.entity.scene.scene import Scene
 from biz.infra.exception.biz_exception import BizException as BE
@@ -39,6 +40,7 @@ def scene_create(data: dict) -> Scene:
     try:
         # 创建一个场景
         scene = Scene(name=name, agents=agents)
+        scene.save()
     except Exception as e:
         # 异常处理
         logging.error(f"Failed to create scene: {e}")
@@ -46,7 +48,7 @@ def scene_create(data: dict) -> Scene:
     return scene
 
 
-def scene_delete(data: dict) -> None:
+def scene_delete(data: dict) -> dict:
     """
     根据场景ID删除一个场景。
 
@@ -67,6 +69,10 @@ def scene_delete(data: dict) -> None:
     except Exception as e:
         logging.error(f"Failed to delete scene with ID {oid}: {e}")
         raise BE.error(ErrorCode.DB_DELETE_FAILED)
+    return {
+        "code": 0,
+        "msg": "success",
+    }
 
 
 def scene_update(data: dict) -> Scene:
@@ -90,6 +96,8 @@ def scene_update(data: dict) -> Scene:
         scene = Scene.objects.get(id=oid)
         scene.name = name if name else scene.name
         scene.agents = agents
+        scene.update_time = datetime.now()
+        scene.save()
     except Exception as e:
         logging.error(f"Failed to update scene with ID {oid}: {e}")
         raise BE.error(ErrorCode.DB_UPDATE_FAILED)

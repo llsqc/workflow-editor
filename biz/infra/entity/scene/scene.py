@@ -26,7 +26,7 @@ class Scene(Document, Response):
         将Scene对象转换为字典格式，以便于序列化和传输。
 
         Returns:
-            dict: 包含场景详细信息的字典，包括id、name、agents、create_time和update_time。
+            dict: 包含场景详细信息的字典，包括id、name、agents、create_time和 update_time。
         """
         # 初始化一个空列表，用于存储agent的详细信息
         agents_list = []
@@ -36,7 +36,7 @@ class Scene(Document, Response):
 
         # 返回一个字典，包含场景的详细信息
         return {
-            'id': self.id,  # 场景的唯一标识符
+            'id': str(self.id),  # 场景的唯一标识符
             'name': self.name,  # 场景名称
             'agents': agents_list,  # agent的详细信息列表
             'create_time': self.create_time.isoformat(),  # 创建时间的ISO格式字符串
