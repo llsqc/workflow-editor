@@ -22,7 +22,7 @@ case3-绘画创作自动化
 
 from case.agents import A, P  # 从agents模块导入A（分析者）、P（画家）类
 from biz.infra.util.LLM import call_chat, call_image  # 导入与大语言模型交互的函数
-from case.consts import story  # 导入小学生作文常量
+from case.consts import story  # 导入小学生作文常量story
 
 # 定义analyser1，用于批改作文
 analyser1 = A(name="绘本绘画-Analyser-Teacher",

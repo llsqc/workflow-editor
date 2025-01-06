@@ -19,13 +19,13 @@ def agent_create(data) -> str:
     """
     创建agent
 
-    根据前端请求的数据创建相应类型的代理，并将其保存到数据库中。
+    根据前端请求的数据创建相应类型的agent，并将其保存到数据库中。
 
     参数:
-    data (dict): 包含创建代理所需数据的字典，包括 'name', 'description', 'avatar', 'kind' 等字段。
+    data (dict): 包含创建agent所需数据的字典，包括 'name', 'description', 'avatar', 'kind' 等字段。
 
     返回:
-    str: 新创建的代理的ID字符串，如果创建失败则返回错误信息。
+    str: 新创建的agent的ID字符串，如果创建失败则返回错误信息。
     """
     # 提取参数
     name = param_util.require_param("name", data)
@@ -34,7 +34,7 @@ def agent_create(data) -> str:
     kind = param_util.require_param("kind", data)
 
     try:
-        # 定义不同类型的代理类和需要的参数
+        # 定义不同类型的agent类和需要的参数
         agent_classes = {
             0: (Analyser, ["identity_setting", "task"]),
             1: (Judge, ["identity_setting", "task", "output"]),
@@ -77,10 +77,10 @@ def agent_update(data) -> None:
     """
     更新agent信息
 
-    根据提供的数据更新指定代理的信息。
+    根据提供的数据更新指定agent的信息。
 
     参数:
-    data (dict): 包含更新代理所需数据的字典，包括'id', 'name', 'description', 'avatar', 'kind' 等字段，以及类型特定的字段。
+    data (dict): 包含更新agent所需数据的字典，包括'id', 'name', 'description', 'avatar', 'kind' 等字段，以及类型特定的字段。
 
     返回:
     str: 成功更新时返回"Successfully updated agent"，失败时返回错误信息。
@@ -125,10 +125,10 @@ def agent_delete(oid) -> None:
     """
     删除agent
 
-    根据提供的对象ID删除相应的代理。
+    根据提供的对象ID删除相应的agent。
 
     参数:
-    oid (str): 代理的ID字符串。
+    oid (str): agent的ID字符串。
 
     返回:
     str: 删除成功时返回None，失败时返回"Error deleting agent"。
@@ -146,13 +146,13 @@ def agent_list(kind) -> list:
     """
     获取agent列表
 
-    根据指定的代理类型，获取并返回该类型的所有代理列表。
+    根据指定的agent类型，获取并返回该类型的所有agent列表。
 
     参数:
-    kind (int): 代理的类型标识。
+    kind (int): agent的类型标识。
 
     返回:
-    list: 包含所有指定类型代理的字典列表，每个字典表示一个代理的详细信息，失败时返回错误信息。
+    list: 包含所有指定类型agent的字典列表，每个字典表示一个agent的详细信息，失败时返回错误信息。
     """
     try:
         # 根据kind查询Agent对象列表
