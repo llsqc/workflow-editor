@@ -7,7 +7,7 @@ class A:
     def generate_prompts(self, text):
         role = f"请记住你的身份是{self.identity_setting}"
         assign = f"你需要根据如上身份对 {text} 做出详细的分析，完成如下任务: {self.task}"
-        return f"{role}\n{assign}"
+        return f"{role}\n{assign}记住不能使用markdown的形式输出，不要用**强调，要求就是正常文本"
 
 
 class J:

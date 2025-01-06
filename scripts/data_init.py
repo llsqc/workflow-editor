@@ -141,7 +141,7 @@ print("成功创建scene", json.loads(payload)["name"])
 
 payload = json.dumps({
     "name": "绘本绘画-Analyser-Teacher",
-    "description": "修改作文",
+    "description": "修改作文并提供修改意见",
     "avatar": "",
     "kind": 0,
     "identity_setting": "小学语文老师",
