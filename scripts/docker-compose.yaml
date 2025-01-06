@@ -24,4 +24,16 @@ services:
       - mongodb
     ports:
       - "5000:5000"
-    command: ["sh", "-c", "echo 'Starting Backend...' && python app.py"]
+    command: [ "sh", "-c", "echo 'Starting Backend...' && python app.py" ]
+
+  frontend:
+    build:
+      context: ../
+      dockerfile: ./scripts/Dockerfile-FrontEnd
+      args:
+        - BUILD_DATE=$(date)
+    container_name: workflow-frontend
+    restart: always
+    ports:
+      - "3000:3000"
+    command: ["npm","run","dev"]

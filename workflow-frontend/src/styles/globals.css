@@ -1,0 +1,52 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: Arial, Helvetica, sans-serif;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+   /* 修改滚动条的宽度 */
+ ::-webkit-scrollbar {
+   width: 0px; /* 或者你想要的任何值 */
+ }
+
+/* 滚动条轨道的样式 */
+::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+}
+
+/* 滚动条的样式 */
+::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 6px;
+}
+
+/* 滚动条的样式，当鼠标悬停时 */
+::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+}
+
+:root {
+  --deepest-gray: #1e2022;
+  --deep-gray: #52616b;
+  --gray: #c9d6df;
+    --light-gray: #f0f5f9;
+}
