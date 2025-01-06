@@ -68,7 +68,7 @@ id_4 = response.json()["payload"]
 print("成功创建agent", json.loads(payload)["name"])
 
 payload = json.dumps({
-    "name": "case1-HR",
+    "name": "case1-简历筛选",
     "agents": [
         id_1,
         id_2,
@@ -82,8 +82,8 @@ response.json()
 print("成功创建scene", json.loads(payload)["name"])
 
 payload = json.dumps({
-    "name": "analyser code-1 Python开发者",
-    "description": "case 2 - HR",
+    "name": "Python教学-Analyser-Answer",
+    "description": "给出该题的正确答案",
     "avatar": "",
     "kind": 0,
     "identity_setting": "资深的Python开发者",
@@ -97,8 +97,8 @@ print("成功创建agent", json.loads(payload)["name"])
 
 # analyser2
 payload = json.dumps({
-    "name": "analyser code-2 知识点分析",
-    "description": "case 2 - HR",
+    "name": "Python教学-Analyser-Teacher",
+    "description": "分析该题中涉及到的各个知识点",
     "avatar": "",
     "kind": 0,
     "identity_setting": "Python编程老师",
@@ -112,8 +112,8 @@ print("成功创建agent", json.loads(payload)["name"])
 
 # analyser3
 payload = json.dumps({
-    "name": "analyser code-3 巩固训练",
-    "description": "case 2 - HR",
+    "name": "Python教学-Analyser-Questioner",
+    "description": "根据涉及到的知识点给出类似的题目",
     "avatar": "",
     "kind": 0,
     "identity_setting": "Python编程老师",
@@ -126,7 +126,7 @@ id_3 = response.json()["payload"]
 print("成功创建agent", json.loads(payload)["name"])
 
 payload = json.dumps({
-    "name": "case2-PythonTeacher",
+    "name": "case2-Python教学",
     "agents": [
         id_1,
         id_2,
@@ -140,12 +140,12 @@ response.json()
 print("成功创建scene", json.loads(payload)["name"])
 
 payload = json.dumps({
-    "name": "analyser code-1 故事总结",
-    "description": "case 3 - illustrator",
+    "name": "绘本绘画-Analyser-Teacher",
+    "description": "修改作文",
     "avatar": "",
     "kind": 0,
-    "identity_setting": "善于总结的作家",
-    "task": "提取这个故事的主要内容，字数为30字"
+    "identity_setting": "小学语文老师",
+    "task": "用教导小学生的口吻提出作文的修改意见"
 })
 
 response = requests.request("POST", agent_create_url, headers=header,data=payload)
@@ -154,12 +154,12 @@ id_1 = response.json()["payload"]
 print("成功创建agent", json.loads(payload)["name"])
 
 payload = json.dumps({
-    "name": "analyser code-2 风格分析",
-    "description": "case 3 - illustrator",
+    "name": "绘本绘画-Analyser-Story",
+    "description": "分析故事，梳理主要的人物情节",
     "avatar": "",
     "kind": 0,
-    "identity_setting": "善于分析故事的插画家",
-    "task": "分析这个故事的画面，给出适合这个故事的绘画风格，并生成提示词，用于作画，只能输出一个词"
+    "identity_setting": "善于总结的作家",
+    "task": "提取这个故事的主要内容，字数为30字"
 })
 
 response = requests.request("POST", agent_create_url, headers=header,data=payload)
@@ -168,12 +168,12 @@ id_2 = response.json()["payload"]
 print("成功创建agent", json.loads(payload)["name"])
 
 payload = json.dumps({
-    "name": "analyser code-3 绘画",
-    "description": "case 3 - illustrator",
+    "name": "绘本绘画-Analyser-Style",
+    "description": "分析这个故事需要的风格",
     "avatar": "",
-    "kind": 3,
-    "identity_setting": "插画画师",
-    "task": "卡通"
+    "kind": 0,
+    "identity_setting": "善于分析故事的插画家",
+    "task": "给出适合这个故事的绘画风格，只能输出一个词语"
 })
 
 response = requests.request("POST", agent_create_url, headers=header,data=payload)
@@ -182,11 +182,26 @@ id_3 = response.json()["payload"]
 print("成功创建agent", json.loads(payload)["name"])
 
 payload = json.dumps({
-    "name": "case3-illustrator",
+    "name": "绘本绘画-Painter-Illustrator",
+    "description": "根据人物、情节、风格绘制对应的图片",
+    "avatar": "",
+    "kind": 3,
+    "identity_setting": "插画画师",
+    "task": "卡通"
+})
+
+response = requests.request("POST", agent_create_url, headers=header,data=payload)
+id_4 = response.json()["payload"]
+
+print("成功创建agent", json.loads(payload)["name"])
+
+payload = json.dumps({
+    "name": "case3-绘本绘画",
     "agents": [
         id_1,
         id_2,
-        id_3
+        id_3,
+        id_4
     ]
 })
 

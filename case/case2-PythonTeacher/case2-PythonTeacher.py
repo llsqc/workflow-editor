@@ -17,25 +17,25 @@
 
 """
 
+# 导入代理类，用于不同任务的处理
+from case.agents import A  # 导入代理类，用于不同任务的处理
 # 导入与大语言模型交互的函数
 from biz.infra.util.LLM import call_chat  # 导入与大语言模型交互的函数
-# 导入agent类，用于不同任务的处理
-from case.agents import A  # 导入agent类，用于不同任务的处理
 # 导入Python问题常量
 from case.consts import python_problem
 
-# 定义第一个agent，负责提供问题的正确解法
-analyser1 = A(name="analyser code-1 Python开发者",
+# 定义第一个代理，负责提供问题的正确解法
+analyser1 = A(name="Python教学-Analyser-Answer",
               identity_setting="资深的Python开发者",
               task="提供这个题目的正确解法，要求注释详细")
 
-# 定义第二个agent，负责根据分析该题所涉及的知识点
-analyser2 = A(name="analyser code-2 知识点分析",
+# 定义第二个代理，负责根据分析该题所涉及的知识点
+analyser2 = A(name="Python教学-Analyser-Teacher",
               identity_setting="Python编程老师",
               task="分析这道题目的知识点，只输出知识点，不用分析题目，不涉及任何和题目相关的内容，知识点后不需要带解释，只需要给出名词")
 
-# 定义第三个agent，负责根据该问题举一反三
-analyser3 = A(name="analyser code-3 巩固训练",
+# 定义第三个代理，负责根据该问题举一反三
+analyser3 = A(name="Python教学-Analyser-Questioner",
               identity_setting="Python编程老师",
               task="根据所给出的知识点提供一道新的编程题")
 

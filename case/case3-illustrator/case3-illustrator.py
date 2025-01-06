@@ -24,14 +24,19 @@ from biz.infra.util.LLM import call_chat, call_image  # 导入与大语言模型
 from case.consts import story
 
 # 定义第一个分析器，用于总结故事内容
-analyser1 = A(name="analyser code-1 故事总结",
+analyser1 = A(name="绘本绘画-Analyser-Teacher",
+              identity_setting="小学语文老师",
+              task="用教导小学生的口吻提出给出的这篇作文的修改意见")
+
+# 定义第一个分析器，用于总结故事内容
+analyser2 = A(name="绘本绘画-Analyser-Story",
               identity_setting="善于总结的作家",
               task="提取这个故事的主要内容，字数为30字")
 
 # 定义第二个分析器，用于分析故事的绘画风格
-analyser2 = A(name="analyser code-2 风格分析",
+analyser3 = A(name="绘本绘画-Analyser-Style",
               identity_setting="善于分析故事的插画家",
-              task="分析这个故事的画面，给出适合这个故事的绘画风格，并生成提示词，用于作画，只能输出一个词")
+              task="给出适合这个故事的绘画风格，只能输出一个词语")
 
 prompt1 = analyser1.generate_prompts(text=story.story)
 output1 = call_chat(analyser1.identity_setting, prompt1, True)
@@ -43,14 +48,24 @@ for content in output1:
 
 print()
 
+prompt2 = analyser2.generate_prompts(text=story.story)
+output2 = call_chat(analyser2.identity_setting, prompt2, True)
+pre = ""  # 用于存储输出内容
+print(analyser2.name + "输出如下")
+for content in output2:
+    pre += content
+    print(content, end="")
+
+print()
+
 # 将分析器1的输出保存为故事的总结
 summary = pre
 
-prompt2 = analyser2.generate_prompts(summary)
-output2 = call_chat(analyser2.identity_setting, prompt2, True)
+prompt3 = analyser3.generate_prompts(summary)
+output3 = call_chat(analyser3.identity_setting, prompt3, True)
 pre = ""  # 重置存储变量
-print(analyser2.name + "输出如下")
-for content in output2:
+print(analyser3.name + "输出如下")
+for content in output3:
     pre += content
     print(content, end="")
 
@@ -60,12 +75,12 @@ print()
 style = pre
 
 # 定义绘画师，用于生成图像
-painter1 = P(name="analyser code-3 绘画",
+painter1 = P(name="绘本绘画-Painter-Illustrator",
               identity_setting="插画画师",
               style=style)
 
-prompt3 = painter1.generate_prompts(summary)
-output3 = call_image(prompt3)
+prompt4 = painter1.generate_prompts(summary)
+output4 = call_image(prompt4)
 
 # 输出生成的图像的url
-print(output3)
+print(output4)
