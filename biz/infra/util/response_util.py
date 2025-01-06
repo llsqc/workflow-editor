@@ -40,7 +40,7 @@ def fail(payload, code=999, msg="unknown error"):
         return jsonify({"code": code, "msg": msg, "payload": payload.to_dict()})
     # BizException 自定义异常
     elif isinstance(payload, BizException):
-        return jsonify({"code": code, "msg": msg, "payload": payload.to_dict()})
+        return jsonify({"code": payload.code, "msg": payload.msg})
     # 内嵌异常
     elif isinstance(payload, Exception):
         return jsonify({"code": code, "msg": msg, "payload": payload.args[0]})

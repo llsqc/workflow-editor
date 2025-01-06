@@ -8,7 +8,6 @@ WORKDIR /app
 COPY ../biz /app/biz
 COPY ../app.py /app
 
-RUN pip
 RUN pip install --no-cache-dir -r /app/biz/requirements.txt
 
 # 暴露端口

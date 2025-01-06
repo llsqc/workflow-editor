@@ -6,7 +6,8 @@
 
 基于docker启动步骤如下
 
-- 在docker环境下，进入`/scripts`目录，执行`make`命令即可
+- 在有docker的linux环境下，进入`/scripts`目录，执行`make`命令即可
+- windows系统推荐使用wsl
 
 ### 手动部署
 

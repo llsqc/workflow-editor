@@ -1,6 +1,10 @@
 # Makefile for infrastructure setup
 
-# Target: infra
+all:	infra-up
+	@echo "初始化样例数据"
+	python3 ./data_init.py
+	@echo "初始化完成"
+
 # Target: infra
 infra-up:
 	@echo "创建应用依赖的容器"
@@ -14,9 +18,7 @@ infra-down:
 	docker-compose --project-name workflow-editor -f ./docker-compose.yaml down
 	@echo "停止成功"
 
-all:
-	make infra-up
 
-clean:
+clean:	infra-down
 	@echo "清除创建的容器"
 	make infra-down
