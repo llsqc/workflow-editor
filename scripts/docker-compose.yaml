@@ -10,7 +10,7 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: fu040913
     ports:
       - "27018:27017"
-    command: ["sh", "-c", "echo 'Starting MongoDB...' && mongod --bind_ip_all"]
+
 
   backend:
     build:

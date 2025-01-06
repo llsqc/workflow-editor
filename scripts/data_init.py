@@ -17,7 +17,7 @@ payload = json.dumps({
     "identity_setting": "招聘前端开发者的互联网公司HR",
     "task": "分析这些人的简历，输出格式为：姓名，邮箱，优点，缺点"
 })
-response = requests.request("POST", agent_create_url, headers=header,data=payload)
+response = requests.request("POST", agent_create_url, headers=header, data=payload)
 id_1 = response.json()["payload"]
 
 print("成功创建agent", json.loads(payload)["name"])
@@ -35,7 +35,7 @@ payload = json.dumps({
     }
 })
 
-response = requests.request("POST", agent_create_url, headers=header,data=payload)
+response = requests.request("POST", agent_create_url, headers=header, data=payload)
 id_2 = response.json()["payload"]
 
 print("成功创建agent", json.loads(payload)["name"])
@@ -49,7 +49,7 @@ payload = json.dumps({
     "task": "输出一面通过的应聘者的名单，格式为[{\"name\":姓名,\"email\":邮箱}]的json数组，不要在markdown的包裹中，不要用```json开头"
 })
 
-response = requests.request("POST", agent_create_url, headers=header,data=payload)
+response = requests.request("POST", agent_create_url, headers=header, data=payload)
 id_3 = response.json()["payload"]
 
 print("成功创建agent", json.loads(payload)["name"])
@@ -62,7 +62,7 @@ payload = json.dumps({
     "deal": "import json\nimport smtplib\nimport string\nfrom email.mime.multipart import MIMEMultipart\nfrom email.mime.text import MIMEText\n\nSUBJECT = '[面试通知] 一面通过'\nSENDER = '1449610641@qq.com'\nAUTHORIZATION_CODE = 'godhxkrehrewhdjf'\n\nSMTP_SERVER = 'smtp.qq.com'\nSMTP_PORT = 465\n\n# 创建邮件\ncandidates = json.loads(text)\nresult = ''\nfor candidate in candidates:\n    message = MIMEMultipart()\n    message['From'] = SENDER\n    message['To'] = candidate['email']\n    message['Subject'] = SUBJECT\n\n    # 邮件正文\n    body = candidate['name'] + \"同学，你好！恭喜通过我司第一轮面试，请耐心等待后续面试通知\"\n    message.attach(MIMEText(body, 'plain'))\n\n    # 连接到SMTP服务器并发送邮件\n    try:\n        server = smtplib.SMTP_SSL(SMTP_SERVER, SMTP_PORT)  # 链接SMTP服务器\n        server.login(SENDER, AUTHORIZATION_CODE)  # 登录SMTP服务器\n        content = message.as_string()\n        server.sendmail(SENDER, candidate['email'], content)\n        server.quit()\n        result += candidate['name'] + ':' + candidate['email'] + '通知邮件发送成功'\n\n    except Exception as e:\n        result += candidate['name'] + ':' + candidate['email'] + '通知邮件发送失败'"
 })
 
-response = requests.request("POST", agent_create_url, headers=header,data=payload)
+response = requests.request("POST", agent_create_url, headers=header, data=payload)
 id_4 = response.json()["payload"]
 
 print("成功创建agent", json.loads(payload)["name"])
@@ -76,7 +76,7 @@ payload = json.dumps({
         id_4
     ]
 })
-response = requests.request("POST", scene_create_url, headers=header,data=payload)
+response = requests.request("POST", scene_create_url, headers=header, data=payload)
 response.json()
 
 print("成功创建scene", json.loads(payload)["name"])
@@ -90,7 +90,7 @@ payload = json.dumps({
     "task": "提供这个题目的正确解法，要求注释详细"
 })
 
-response = requests.request("POST", agent_create_url, headers=header,data=payload)
+response = requests.request("POST", agent_create_url, headers=header, data=payload)
 id_1 = response.json()["payload"]
 
 print("成功创建agent", json.loads(payload)["name"])
@@ -105,7 +105,7 @@ payload = json.dumps({
     "task": "提供这个题目的正确解法，要分析这道题目的知识点，只输出知识点，不用分析题目，不涉及任何和题目相关的内容，知识点后不需要带解释，只需要给出名词求注释详细"
 })
 
-response = requests.request("POST", agent_create_url, headers=header,data=payload)
+response = requests.request("POST", agent_create_url, headers=header, data=payload)
 id_2 = response.json()["payload"]
 
 print("成功创建agent", json.loads(payload)["name"])
@@ -120,7 +120,7 @@ payload = json.dumps({
     "task": "根据所给出的知识点提供一道新的编程题"
 })
 
-response = requests.request("POST", agent_create_url, headers=header,data=payload)
+response = requests.request("POST", agent_create_url, headers=header, data=payload)
 id_3 = response.json()["payload"]
 
 print("成功创建agent", json.loads(payload)["name"])
@@ -134,7 +134,7 @@ payload = json.dumps({
     ]
 })
 
-response = requests.request("POST", scene_create_url, headers=header,data=payload)
+response = requests.request("POST", scene_create_url, headers=header, data=payload)
 response.json()
 
 print("成功创建scene", json.loads(payload)["name"])
@@ -148,7 +148,7 @@ payload = json.dumps({
     "task": "用教导小学生的口吻提出作文的修改意见"
 })
 
-response = requests.request("POST", agent_create_url, headers=header,data=payload)
+response = requests.request("POST", agent_create_url, headers=header, data=payload)
 id_1 = response.json()["payload"]
 
 print("成功创建agent", json.loads(payload)["name"])
@@ -162,7 +162,7 @@ payload = json.dumps({
     "task": "提取这个故事的主要内容，字数为30字"
 })
 
-response = requests.request("POST", agent_create_url, headers=header,data=payload)
+response = requests.request("POST", agent_create_url, headers=header, data=payload)
 id_2 = response.json()["payload"]
 
 print("成功创建agent", json.loads(payload)["name"])
@@ -176,7 +176,7 @@ payload = json.dumps({
     "task": "给出适合这个故事的绘画风格，只能输出一个词语"
 })
 
-response = requests.request("POST", agent_create_url, headers=header,data=payload)
+response = requests.request("POST", agent_create_url, headers=header, data=payload)
 id_3 = response.json()["payload"]
 
 print("成功创建agent", json.loads(payload)["name"])
@@ -187,10 +187,10 @@ payload = json.dumps({
     "avatar": "",
     "kind": 3,
     "identity_setting": "插画画师",
-    "task": "卡通"
+    "style": "绘本"
 })
 
-response = requests.request("POST", agent_create_url, headers=header,data=payload)
+response = requests.request("POST", agent_create_url, headers=header, data=payload)
 id_4 = response.json()["payload"]
 
 print("成功创建agent", json.loads(payload)["name"])
@@ -205,6 +205,6 @@ payload = json.dumps({
     ]
 })
 
-response = requests.request("POST", scene_create_url, headers=header,data=payload)
+response = requests.request("POST", scene_create_url, headers=header, data=payload)
 
 print("成功创建scene", json.loads(payload)["name"])
