@@ -10,7 +10,7 @@ header = {
 }
 
 payload = json.dumps({
-    "name": "简历筛选-Analyser-HR",
+    "name": "简历筛选-HR",
     "description": "通过简历分析出各个求职者的优缺点和基本信息",
     "avatar": "",
     "kind": 0,
@@ -23,7 +23,7 @@ id_1 = response.json()["payload"]
 print("成功创建agent", json.loads(payload)["name"])
 
 payload = json.dumps({
-    "name": "简历筛选-Judge-Filter",
+    "name": "简历筛选-Filter",
     "description": "根据求职者的信息，判断是否符合招聘需求",
     "avatar": "",
     "kind": 1,
@@ -41,7 +41,7 @@ id_2 = response.json()["payload"]
 print("成功创建agent", json.loads(payload)["name"])
 
 payload = json.dumps({
-    "name": "简历筛选-Analyser-Extractor",
+    "name": "简历筛选-Extractor",
     "description": "提取出通过筛选的求职者的联系方式",
     "avatar": "",
     "kind": 0,
@@ -55,7 +55,7 @@ id_3 = response.json()["payload"]
 print("成功创建agent", json.loads(payload)["name"])
 
 payload = json.dumps({
-    "name": "简历筛选-Handler-Communicant",
+    "name": "简历筛选-Communicant",
     "description": "向通过简历筛选的求职者发送邮件",
     "avatar": "",
     "kind": 2,
@@ -120,7 +120,7 @@ response.json()
 print("成功创建scene", json.loads(payload)["name"])
 
 payload = json.dumps({
-    "name": "Python教学-Analyser-Answer",
+    "name": "Python教学-Answer",
     "description": "给出该题的正确答案",
     "avatar": "",
     "kind": 0,
@@ -135,7 +135,7 @@ print("成功创建agent", json.loads(payload)["name"])
 
 # analyser2
 payload = json.dumps({
-    "name": "Python教学-Analyser-Teacher",
+    "name": "Python教学-Teacher",
     "description": "分析该题中涉及到的各个知识点",
     "avatar": "",
     "kind": 0,
@@ -150,7 +150,7 @@ print("成功创建agent", json.loads(payload)["name"])
 
 # analyser3
 payload = json.dumps({
-    "name": "Python教学-Analyser-Questioner",
+    "name": "Python教学-Questioner",
     "description": "根据涉及到的知识点给出类似的题目",
     "avatar": "",
     "kind": 0,
@@ -178,7 +178,7 @@ response.json()
 print("成功创建scene", json.loads(payload)["name"])
 
 payload = json.dumps({
-    "name": "绘本绘画-Analyser-Teacher",
+    "name": "绘本绘画-Teacher",
     "description": "修改作文并提供修改意见",
     "avatar": "",
     "kind": 0,
@@ -192,7 +192,7 @@ id_1 = response.json()["payload"]
 print("成功创建agent", json.loads(payload)["name"])
 
 payload = json.dumps({
-    "name": "绘本绘画-Analyser-Story",
+    "name": "绘本绘画-Story",
     "description": "分析故事，梳理主要的人物情节",
     "avatar": "",
     "kind": 0,
@@ -206,7 +206,7 @@ id_2 = response.json()["payload"]
 print("成功创建agent", json.loads(payload)["name"])
 
 payload = json.dumps({
-    "name": "绘本绘画-Analyser-Style",
+    "name": "绘本绘画-Style",
     "description": "分析这个故事需要的风格",
     "avatar": "",
     "kind": 0,
@@ -220,7 +220,7 @@ id_3 = response.json()["payload"]
 print("成功创建agent", json.loads(payload)["name"])
 
 payload = json.dumps({
-    "name": "绘本绘画-Painter-Illustrator",
+    "name": "绘本绘画-Illustrator",
     "description": "根据人物、情节、风格绘制对应的图片",
     "avatar": "",
     "kind": 3,
