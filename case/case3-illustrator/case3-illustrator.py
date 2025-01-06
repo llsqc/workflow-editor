@@ -16,8 +16,8 @@
 3. painter：调用LLM根据艺术风格生成创作指导。
 """
 
-# 导入代理类，用于不同任务的处理
-from case.agents import A, P  # 导入代理类，用于不同任务的处理
+# 导入agent类，用于不同任务的处理
+from case.agents import A, P  # 导入agent类，用于不同任务的处理
 # 导入与大语言模型交互的函数
 from biz.infra.util.LLM import call_chat, call_image  # 导入与大语言模型交互的函数
 # 导入Python问题常量

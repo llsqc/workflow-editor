@@ -6,7 +6,7 @@ scene_service.py
 主要功能：
 - `scene_create`: 创建一个新的场景。
 - `scene_delete`: 根据场景ID删除一个场景。
-- `scene_update`: 更新场景的名称和代理信息。
+- `scene_update`: 更新场景的名称和agent信息。
 - `scene_list`: 分页查询场景列表。
 - `scene_get`: 根据场景ID获取单个场景的详细信息。
 """
@@ -77,7 +77,7 @@ def scene_delete(data: dict) -> dict:
 
 def scene_update(data: dict) -> Scene:
     """
-    更新场景的名称和代理信息。
+    更新场景的名称和agent信息。
 
     参数：
     - `data`: 包含更新场景所需参数的字典，必须包含 `id` 和 `agents`，可选包含 `name`。
@@ -120,7 +120,7 @@ def scene_list(data: dict) -> dict:
               {
                   "id": <场景ID>,
                   "name": <场景名称>,
-                  "agents": <代理列表>
+                  "agents": <agent列表>
               },
               ...
           ]
