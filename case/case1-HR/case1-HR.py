@@ -19,12 +19,11 @@
 
 """
 
-# 导入所需的模块和类
-from case.consts import applicants, email_deal  # 从consts模块导入applicants（应聘者列表）和email_deal（邮件处理函数）
-from case.agents import A, H, J  # 从agents模块导入A（分析者）、H（处理者）、J（判断者）类
-
 # 导入LLM（大语言模型）调用函数
 from biz.infra.util.LLM import call_chat
+from case.agents import A, H, J  # 从agents模块导入A（分析者）、H（处理者）、J（判断者）类
+# 导入所需的模块和类
+from case.consts import applicants, email_deal  # 从consts模块导入applicants（应聘者列表）和email_deal（邮件处理函数）
 
 # 创建analyser1，用于分析应聘者的简历
 analyser1 = A(name="analyser code-1 互联网公司HR",  # agent名称

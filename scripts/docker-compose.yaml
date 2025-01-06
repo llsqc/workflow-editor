@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: workflow-mongodb
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: fu040913
+    ports:
+      - "27018:27017"
+    command: ["sh", "-c", "echo 'Starting MongoDB...' && mongod --bind_ip_all"]
+
+  backend:
+    build:
+      context: ../
+      dockerfile: ./scripts/Dockerfile-Backend
+      args:
+        - BUILD_DATE=$(date)
+    container_name: workflow-backend
+    restart: always
+    depends_on:
+      - mongodb
+    ports:
+      - "5000:5000"
+    command: ["sh", "-c", "echo 'Starting Backend...' && python app.py"]
