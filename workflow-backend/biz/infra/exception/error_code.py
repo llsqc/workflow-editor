@@ -27,6 +27,7 @@ class ErrorCode(Enum):
 
     # 业务逻辑相关
     CALL_CHAT_FAILED = (3000, "call chat failed, please try again")
+    HANDLER_CALL_FAILED = (3001, "handler call failed, please try again")
 
     def __init__(self, code, msg):
         self.code = code

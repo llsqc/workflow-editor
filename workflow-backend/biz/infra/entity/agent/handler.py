@@ -3,6 +3,8 @@ import json
 from mongoengine import StringField
 
 from biz.infra.entity.agent.agent import Agent
+from biz.infra.exception.biz_exception import BizException as BE
+from biz.infra.exception.error_code import ErrorCode
 
 """
 Handler 处理者
@@ -24,7 +26,7 @@ class Handler(Agent):
         result = self.handle(text)
 
         def generator():
-            if not stream:
+            if stream:
                 # 以 JSON 格式返回处理结果
                 yield json.dumps({
                     "number": 0,
@@ -47,11 +49,11 @@ class Handler(Agent):
             exec(self.deal, {}, local_vars)
             # 获取执行结果
             result = local_vars.get('result', None)
+            # 返回处理结果
+            return result
         except Exception as e:
             # 捕获并返回执行过程中发生的任何异常
-            return f"Handler: {self.name} 执行失败，错误信息: {e}"
-        # 返回处理结果
-        return f"Handler: {self.name} 执行成功, 输出如下: {result}" if result is not None else f"Handler: {self.name} 执行成功"
+            raise BE.error(ErrorCode.HANDLER_CALL_FAILED)
 
     def to_dict(self):
         """
