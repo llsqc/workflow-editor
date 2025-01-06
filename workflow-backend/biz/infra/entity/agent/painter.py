@@ -55,7 +55,7 @@ class Painter(Agent):
             yield json.dumps({
                 'number': -1,
                 'id': str(self.id),
-                'url': url,
+                'content': url,
                 'revised_prompt': revised_prompt,
             }, ensure_ascii=False) + '\n'
 
