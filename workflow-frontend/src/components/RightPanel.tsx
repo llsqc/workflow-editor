@@ -5,6 +5,8 @@ import JudgeForm from './Right/JudgerForm'
 import HandlerForm from './Right/HandlerForm'
 import PainterForm from './Right/PainterForm'
 import CenterPanel from './CenterPanel'
+import { useDrag, useDrop } from 'react-dnd';
+
 
 interface RightPanelProps {
     onAgentAdd: (agent: Agent) => void
@@ -104,6 +106,7 @@ export default function RightPanel({ onAgentAdd }: RightPanelProps) {
 function AgentGroup({ kind, agents, onEditAgent }: { kind: number, agents: Agent[], onEditAgent: (agent: Agent) => void }) {
     const [isExpanded, setIsExpanded] = useState(true)
     const kindNames = ['Analyser', 'Judge', 'Handler', 'Painter']
+    const icons = ['💬', '📈', '💻', '🎨']
 
     return (
         <div className="mb-4">
@@ -125,7 +128,6 @@ function AgentGroup({ kind, agents, onEditAgent }: { kind: number, agents: Agent
 }
 
 function AgentCard({ agent, onEdit }: { agent: Agent, onEdit: () => void }) {
-    const { useDrag } = require('react-dnd')
     const [{ isDragging }, drag] = useDrag(() => ({
         type: 'AGENT',
         item: { ...agent },
@@ -133,6 +135,7 @@ function AgentCard({ agent, onEdit }: { agent: Agent, onEdit: () => void }) {
             isDragging: monitor.isDragging()
         })
     }))
+    const icons = ['💬', '📈', '💻', '🎨']
 
     return (
         <div
@@ -140,7 +143,7 @@ function AgentCard({ agent, onEdit }: { agent: Agent, onEdit: () => void }) {
             className={`p-4 border rounded ${isDragging ? 'opacity-50' : ''}`}
             onClick={onEdit}
         >
-            <h3 className="font-bold">{agent.name}</h3>
+            <h3 className="font-bold">{icons[agent.kind] + agent.name}</h3>
             <p className="text-sm overflow-hidden max-w-full">{agent.description}</p>
         </div>
     )

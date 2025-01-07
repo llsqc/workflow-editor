@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Agent } from "@/pages/api/apis";
 import {marked} from 'marked';
-import './LeftPanel.css'; // 导入自定义的 CSS 文件
+import styles from './LeftPanel.module.css';
+
 
 interface LeftPnelProps {
     workflowAgents: Agent[];  // 工作流中的所有 agents
@@ -29,7 +30,7 @@ const LeftPanel = ({ workflowAgents, currentOutput }: LeftPnelProps) => {
     };
 
     return (
-        <div className="w-1/3 border-r max-h-full overflow-y-auto">
+        <div className={"w-1/3 border-r max-h-full overflow-y-auto"}>
             <div className="text-xl font-bold -mb-1 p-4 pt-5 pl-6 pb-3 sticky border-b-2 top-0 bg-gray-100">输出</div>
             <div className="space-y-4 p-4">
                 {workflowAgents.length > 0 ? (

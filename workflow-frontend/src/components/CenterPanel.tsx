@@ -274,6 +274,8 @@ export default function CenterPanel() {
 
         let done = false
         while (!done) {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
             const { value, done: isDone } = await reader.read()
             done = isDone
 
@@ -374,6 +376,7 @@ export default function CenterPanel() {
     }
 
 
+    // @ts-ignore
     return (
         <>
             <LeftPanel workflowAgents={workflowAgents} currentOutput={currentOutput} />
