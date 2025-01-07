@@ -376,12 +376,11 @@ export default function CenterPanel() {
     }
 
 
-    // @ts-ignore
     return (
         <>
             <LeftPanel workflowAgents={workflowAgents} currentOutput={currentOutput} />
             <div ref={drop} className="flex flex-col p-4 w-2/3">
-                <div className="mb-4 flex justify-between pl-4 pr-4 pt-4">
+                <div className="mb-4 flex justify-between pl-4 pr-4 pt-1">
                     <div className={"flex"}>
                         <h2 className="text-xl font-bold">我的工作流</h2>
                         <h2
@@ -491,7 +490,7 @@ export default function CenterPanel() {
                     <textarea
                         value={input}
                         onChange={(e) => setInput(e.target.value)}
-                        className="w-full p-2 border-gray-300 border rounded h-60 bg-white "
+                        className="w-full p-2 h-2/5 border-gray-300 border rounded min-h-60 bg-white  mt-auto "
                     />
                 </div>
             </div>

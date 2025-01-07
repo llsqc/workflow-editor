@@ -2,11 +2,12 @@
 
 ## 应用启动方式
 
-### 基于docker
+### docker部署
 
 基于docker启动步骤如下
 
 - 在有docker的linux环境下，进入`/scripts`目录，执行`make`命令即可
+- `make clean`命令可以清除创建的容器
 - windows系统推荐使用wsl
 
 ### 手动部署
@@ -14,9 +15,13 @@
 手动部署需要如下步骤
 
 - 在本地部署一个mongoDB
-- 并将`/workflow-backend/biz/infra/consts/database.py`文件下相应的配置修改为本地配置
-- 通过python命令运行`app.py`文件
-- 运行`/scripts/case.py`生成样例
+- 并将`./workflow-backend/biz/infra/consts/database.py`文件下相应的配置修改为本地配置
+- 本地配置python环境
+- `pip install ./workflow-backend/biz/requirements.txt` 下载需要的依赖
+- 通过python命令运行`python app.py`文件
+- `python /scripts/case.py` 通过脚步生成样例
+- 本地配置node环境
+- `npm run dev` 启动前端项目
 
 ## 说明
 
@@ -44,6 +49,7 @@
 4. Handler - Communicant：邮件通知各个通过面试的求职者。
 
 输入样例：
+
 ```text
 姓名: 张伟
 
@@ -166,6 +172,7 @@ AWS Certified Developer - Associate
 3. Analyser - Questioner：根据涉及到的知识点，给出类似的题目，用于巩固
 
 输入样例：
+
 ```text
 [NOIP2005 普及组] 采药
 
@@ -218,6 +225,7 @@ NOIP 2005 普及组第三题
 4. Painter - Illustrator：根据人物、情节、风格绘制对应的图片
 
 输入样例：
+
 ```text
     童年就像一个五彩斑斓的盒子，里面装满了许许多多五彩缤纷的珍珠。有些已经随着岁月的流失而渐渐褪色，有些却依然光彩照人，使我难以忘怀。 
     
