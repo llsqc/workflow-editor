@@ -22,6 +22,7 @@ data-init:
 	@echo "初始化样例数据"
 	python3 ./data_init.py
 	@echo "初始化完成"
+	@echo "首页: http://localhost:3000"
 
 # Target: infra-down
 infra-down:

@@ -56,7 +56,7 @@ class Analyser(Agent):
         """
         role = f"请记住你的身份是{self.identity_setting}"
         assign = f"你需要根据如上身份对 {text} 做出详细的分析，完成如下任务: {self.task}"
-        return f"{role}\n{assign}\n,如果有markdown代码块需要注明语言"
+        return f"{role}\n{assign}\n"
 
     def to_dict(self):
         """
