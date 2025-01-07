@@ -279,7 +279,7 @@ function EditAgentForm({ agent, onClose, onUpdate, onDelete }: { agent: Agent, o
 
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-            <div className="bg-white p-4 rounded max-w-md w-full">
+            <div className="bg-white p-4 rounded max-w-xl w-full">
                 <div>
                     <div className="mb-4">
                         <label className="block mb-2">名称</label>

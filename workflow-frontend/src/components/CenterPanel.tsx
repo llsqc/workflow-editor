@@ -30,6 +30,7 @@ export default function CenterPanel() {
     const [currentOutput, setCurrentOutput] = useState<{ id: string, content: string }[]>([{ id: '', content: '' }])
     const [sceneExists, setSceneExists] = useState(false)
     const [sceneName, setSceneName] = useState("未命名")  // 新增：保存场景名称
+    const [sceneId, setSceneId] = useState('')
     const [isEditingName, setIsEditingName] = useState(false)  // 新增：编辑模式状态
     const [sceneList, setSceneList] = useState<Scene[]>([])  // 场景列表
     const [sceneDropdown, setSceneDropdown] = useState(false)  // 场景下拉框状态
@@ -112,11 +113,12 @@ export default function CenterPanel() {
         fetchSceneList()
     }, [])
 
-    const handleSelectScene = (sceneId: string) => {
-        const selectedScene: Scene | undefined = sceneList.find(scene => scene.id === sceneId)
+    const handleSelectScene = (currentSceneId: string) => {
+        const selectedScene: Scene | undefined = sceneList.find(scene => scene.id === currentSceneId)
         if (!selectedScene) return
         setSceneExists(true)
         setSceneName(selectedScene.name)
+        setSceneId(selectedScene.id)
         updateGraphFromScene(selectedScene.agents)
     }
 
@@ -186,7 +188,10 @@ export default function CenterPanel() {
         const res = await createScene(newScene)
         if (res.code == 0) {
             setSceneExists(true)
-            console.log("create scene success", res)
+            console.log("create scene success", res.payload.id)
+            setSceneId(res.payload.id);
+
+            alert( `${sceneName} 创建成功！`)
         }
         await fetchSceneList()
     }
@@ -195,12 +200,21 @@ export default function CenterPanel() {
     /**
      * @description 更新场景
      */
-    const handleUpdateScene = () => {
+    const handleUpdateScene = async () => {
         console.log(workflowAgents)
-        const newScene = { "name": sceneName, "agents": workflowAgents.map((agent) =>agent.id) }
-        const res = updateScene(newScene)
-        if(res?.code == 0){
-            console.log("update scene success",res)
+        const newScene = {
+            "id": sceneList.find(scene => scene.id === sceneId)?.id,
+            "name": sceneName,
+            "agents": workflowAgents.map((agent) => agent.id)
+        }
+        console.log(JSON.stringify(newScene))
+        const res = await updateScene(newScene)
+        console.log("update res",JSON.stringify(res))
+
+        if (res) {
+            console.log("update scene success", res)
+            alert(`${sceneName} 更新成功！`)
+            await fetchSceneList()
         }
     }
 
@@ -214,10 +228,21 @@ export default function CenterPanel() {
         const res = await deleteScene({id :currentSceneId})
         if(res?.code == 0){
             console.log("delete scene success",res)
-            window.location.reload();
+            alert(`${sceneName} 删除成功！`)
+            await fetchSceneList()
+            handleSelectScene(sceneList[0].id)
             return
         }
         console.error(res)
+    }
+
+    const handleNewScene = () => {
+        setSceneName('未命名')
+        setSceneId('')
+        setNodes(initialNodes)
+        setEdges(initialEdges)
+        setSceneExists(false)
+
     }
 
     /**
@@ -379,7 +404,7 @@ export default function CenterPanel() {
     return (
         <>
             <LeftPanel workflowAgents={workflowAgents} currentOutput={currentOutput} />
-            <div ref={drop} className="flex flex-col p-4 w-2/3">
+            <div ref={drop} className="flex flex-col p-4 w-2/3 h-full">
                 <div className="mb-4 flex justify-between pl-4 pr-4 pt-1">
                     <div className={"flex"}>
                         <h2 className="text-xl font-bold">我的工作流</h2>
@@ -411,6 +436,12 @@ export default function CenterPanel() {
                                 删除场景
                             </button>
                         }
+                        <button
+                            onClick={handleNewScene}
+                            className="px-4 py-2 bg-gray-200 border border-gray-300 ml-4 text-black rounded"
+                        >
+                            添加新场景
+                        </button>
                         {/* 场景选择下拉框 */}
                         <div className="relative">
                             <button
@@ -423,7 +454,7 @@ export default function CenterPanel() {
                                 sceneDropdown &&
                                 <div
                                     className="absolute px-0 py-2 left-0 mt-2 bg-white rounded z-50 w-34"
-                                    onMouseLeave={()=> setSceneDropdown(false)}
+                                    onMouseLeave={() => setSceneDropdown(false)}
                                 >
                                     {sceneList.map((scene) => (
                                         <div
@@ -450,7 +481,7 @@ export default function CenterPanel() {
                                     onClick={handleCreateScene}
                                     className="px-4 py-2 bg-gray-200 border border-gray-300 ml-4 text-black rounded"
                                 >
-                                    创建场景
+                                    保存新场景
                                 </button>
                         }
                     </div>
@@ -474,7 +505,7 @@ export default function CenterPanel() {
                 </div>
 
                 {/* Input */}
-                <div className="mb-4 pr-4 pl-4 mt-4 ">
+                <div className="mb-4 pr-4 pl-4 mt-4 h-2/5 ">
                     <div className={"flex justify-between relative"}>
                         <div className="font-bold mb-3 p-2  w-1/4 pl-6 border-b-2 rounded bg-gray-100">
                             输入
@@ -490,7 +521,7 @@ export default function CenterPanel() {
                     <textarea
                         value={input}
                         onChange={(e) => setInput(e.target.value)}
-                        className="w-full p-2 h-2/5 border-gray-300 border rounded min-h-60 bg-white  mt-auto "
+                        className="w-full p-2 h-2/5 border-gray-300 border rounded min-h-60 bg-white   "
                     />
                 </div>
             </div>

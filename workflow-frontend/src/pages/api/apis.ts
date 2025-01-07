@@ -160,7 +160,8 @@ export const createScene = async(data: SceneData) => {
  * @description 更新场景
  */
 export const updateScene = async(data: SceneData) => {
-    return await apiRequest('/scene/update', data);
+    const res = await request.post('/scene/update',data)
+    return res.data;
 }
 
 /**
