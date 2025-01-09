@@ -1,26 +1,60 @@
 import { CreateAgentData, JudgeAgent } from '@/pages/api/apis'
+import React from "react";
 
-export default function JudgerForm({ formData, setFormData }: { formData: Partial<JudgeAgent>, setFormData: (data: Partial<JudgeAgent>) => void }) {
+export default function JudgerForm({
+                                       formData,
+                                       setFormData
+                                   }: {
+    formData: Partial<JudgeAgent>;
+    setFormData: (data: Partial<JudgeAgent>) => void;
+}) {
+    // 维护一个键值对的数组
+    const [outputArray, setOutputArray] = React.useState<{ key: string, value: string }[]>(
+        formData.output ? Object.entries(formData.output).map(([key, value]) => ({ key, value })) : []
+    );
+
+    const [isSaved, setIsSaved] = React.useState(false);
+
     // 更新输出
-    const handleOutputChange = (key: string, value: string) => {
-        const updatedOutput = { ...formData.output };
-        updatedOutput[key] = value;
-        setFormData({ ...formData, output: updatedOutput });
+    const handleOutputChange = (index: number, key: string, value: string) => {
+        const updatedArray = [...outputArray];
+        updatedArray[index] = { key, value };
+        setOutputArray(updatedArray);
     };
 
     // 添加新的键值对
     const handleAddOutputField = () => {
-        const updatedOutput = { ...formData.output };
-        updatedOutput[`key${Object.keys(updatedOutput).length + 1}`] = '';  // Add a new key-value pair with an incremented key
-        setFormData({ ...formData, output: updatedOutput });
+        setOutputArray([
+            ...outputArray,
+            { key: `key${outputArray.length + 1}`, value: '' }
+        ]);
     };
 
     // 删除指定的键值对
-    const handleRemoveOutputField = (key: string) => {
-        const updatedOutput = { ...formData.output };
-        delete updatedOutput[key]; // 删除指定的键
-        setFormData({ ...formData, output: updatedOutput });
+    const handleRemoveOutputField = (index: number) => {
+        const updatedArray = outputArray.filter((_, i) => i !== index);
+        setOutputArray(updatedArray);
     };
+
+    // 保存时将 outputArray 转换为对象
+    const handleSave = () => {
+        const updatedOutput = outputArray.reduce((acc, { key, value }) => {
+            acc[key] = value;
+            return acc;
+        }, {} as { [key: string]: string });
+
+        setFormData({ ...formData, output: updatedOutput });
+        setIsSaved(true);
+        alert("保存成功！")
+    };
+
+    React.useEffect(() => {
+        // 更新 formData 的 output 字段
+        setFormData({ ...formData, output: outputArray.reduce((acc, { key, value }) => {
+                acc[key] = value;
+                return acc;
+            }, {} as { [key: string]: string }) });
+    }, [outputArray, setFormData, formData]);
 
     return (
         <>
@@ -44,39 +78,67 @@ export default function JudgerForm({ formData, setFormData }: { formData: Partia
             </div>
             <div className="mb-4">
                 <label className="block mb-2">输出</label>
-                {formData.output && Object.keys(formData.output).map((key, index) => (
+                {outputArray.map((item, index) => (
                     <div key={index} className="flex mb-2 items-center">
                         <div>当</div>
                         <input
                             type="text"
-                            value={key}
-                            onChange={e => handleOutputChange(e.target.value, formData.output[key])}
+                            value={item.key}
+                            onChange={e => handleOutputChange(index, e.target.value, item.value)}
                             className="w-1/4 p-2 border rounded mr-2"
                         />
                         <div>时</div>
                         <input
                             type="text"
-                            value={formData.output[key] || ''}
-                            onChange={e => handleOutputChange(key, e.target.value)}
+                            value={item.value}
+                            onChange={e => handleOutputChange(index, item.key, e.target.value)}
                             className="w-3/5 p-2 border rounded"
                         />
-                        <button
-                            type="button"
-                            onClick={() => handleRemoveOutputField(key)}
-                            className="ml-1 bg-red-500 text-white rounded w-5 h-5"
-                        >
-                            -
-                        </button>
+
+                        {
+                            isSaved ||
+                            <button
+                                type="button"
+                                onClick={() => handleRemoveOutputField(index)}
+                                className="ml-1 bg-red-500 text-white rounded w-5 h-5"
+                            >
+                                -
+                            </button>
+                        }
                     </div>
                 ))}
+
+                {
+                    isSaved ||
+                    <button
+                        type="button"
+                        onClick={handleAddOutputField}
+                        className="text-blue-500 mt-2"
+                    >
+                        添加
+                    </button>
+                }
+            </div>
+
+            {isSaved ?
                 <button
                     type="button"
-                    onClick={handleAddOutputField}
-                    className="text-blue-500 mt-2"
+                    onClick={() => setIsSaved(false)}
+                    className="text-green-500 mt-4"
                 >
-                    添加
+                    编辑
                 </button>
-            </div>
+                :
+                <button
+                    type="button"
+                    onClick={handleSave}
+                    className="text-green-500 mt-4"
+                >
+                    保存
+                </button>
+            }
+
+
         </>
     );
 }
