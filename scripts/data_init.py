@@ -46,7 +46,7 @@ payload = json.dumps({
     "avatar": "",
     "kind": 0,
     "identity_setting": "招聘前端开发者的互联网公司HR",
-    "task": "输出一面通过的应聘者的名单，格式为[{\"name\":姓名,\"email\":邮箱}]的json数组，不要在markdown的包裹中，不要用```json开头"
+    "task": "记住不要用markdown格式，按我要求的格式输出，输出一面通过的应聘者的名单，格式为[{\"name\":姓名,\"email\":邮箱}]的json数组，不要在markdown的包裹中，不要用```json开头"
 })
 
 response = requests.request("POST", agent_create_url, headers=header, data=payload)

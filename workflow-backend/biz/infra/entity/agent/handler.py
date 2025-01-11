@@ -13,7 +13,6 @@ Handler 处理者
 
 
 class Handler(Agent):
-    # 定义一个字符串字段，用于存储处理逻辑
     deal = StringField()
 
     def call(self, text, stream=False):
@@ -24,7 +23,6 @@ class Handler(Agent):
         :return: 包含处理结果的生成器
         """
         result = self.handle(text)
-
         def generator():
             if stream:
                 # 以 JSON 格式返回处理结果

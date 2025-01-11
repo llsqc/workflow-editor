@@ -5,35 +5,24 @@ from mongoengine import StringField
 from biz.infra.entity.agent.agent import Agent
 from biz.infra.util import LLM
 
-
-class Painter(Agent):
-    """
+"""
     Painter类，继承自Agent类。
     表示一个绘画agent，具有身份设定和风格属性。
     该类主要用于生成绘画提示词，并通过LLM调用生成图像。
     """
 
+
+class Painter(Agent):
     # 身份设定，描述绘画agent的身份
     identity_setting = StringField()
     # 绘画风格，描述绘画agent的风格
     style = StringField()
 
     def call(self, text, stream=False):
-        """
-        调用Painter Agent生成图像。
-
-        Args:
-            text (str): 输入的文本，用于生成提示词。
-            stream (bool): 是否以流式方式返回结果，默认为False。
-
-        Returns:
-            generator: 生成器对象，用于流式返回生成的图像数据。
-        """
         # 生成提示词
         prompts = self.generate_prompts(text)
         # 调用LLM进行对话，生成初始结果
         r = LLM.call_chat(self.identity_setting, prompts, True)
-
         # 定义生成器函数
         def generator():
             p = ""
@@ -48,10 +37,7 @@ class Painter(Agent):
                 }, ensure_ascii=False) + '\n'
                 i += 1
                 p += chunk
-
-            # 调用LLM生成图像，并获取图像URL和修订后的提示词
             url, revised_prompt = LLM.call_image(p)
-            # 生成最终的JSON数据块
             yield json.dumps({
                 'number': -1,
                 'id': str(self.id),
@@ -65,12 +51,6 @@ class Painter(Agent):
     def generate_prompts(self, text):
         """
         生成用于AI生图的提示词。
-
-        Args:
-            text (str): 输入的文本，用于生成提示词。
-
-        Returns:
-            str: 生成的提示词字符串。
         """
         # 定义角色设定
         role = f"请记住你的身份是{self.identity_setting}，你需要基于这个身份提供用于AI生图的提示词"
